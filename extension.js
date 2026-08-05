@@ -2,6 +2,7 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
+import {ClockWidget} from './lib/clockWidget.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
@@ -14,11 +15,17 @@ export default class MacosTopPanelExtension extends Extension {
         clearBox(Main.panel._leftBox);
         clearBox(Main.panel._centerBox);
         clearBox(Main.panel._rightBox);
+
+        this._clockWidget = new ClockWidget();
+        Main.panel._rightBox.add_child(this._clockWidget);
     }
 
     disable() {
         if (!this._boxSnapshots)
             return;
+
+        this._clockWidget.destroy();
+        this._clockWidget = null;
 
         restoreBox(Main.panel._leftBox, this._boxSnapshots.left);
         restoreBox(Main.panel._centerBox, this._boxSnapshots.center);

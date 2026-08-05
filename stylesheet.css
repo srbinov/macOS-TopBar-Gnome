@@ -1,1 +1,11 @@
 /* macOS-style top panel — styling added incrementally in later tasks */
+
+.macos-clock {
+    spacing: 6px;
+    padding: 0 8px;
+}
+
+.macos-clock-date,
+.macos-clock-time {
+    font-size: 13px;
+}
