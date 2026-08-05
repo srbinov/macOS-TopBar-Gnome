@@ -26,6 +26,11 @@ export default class MacosTopPanelExtension extends Extension {
         Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
         Main.panel._rightBox.add_child(this._wifiIndicator.container);
 
+        // Control Center: reuse the real stock Quick Settings button, just relocated.
+        const quickSettings = Main.panel.statusArea.quickSettings;
+        quickSettings.container.show();
+        Main.panel._rightBox.add_child(quickSettings.container);
+
         this._clockWidget = new ClockWidget();
         Main.panel._rightBox.add_child(this._clockWidget);
     }
@@ -45,6 +50,8 @@ export default class MacosTopPanelExtension extends Extension {
         this._batteryIndicator.destroy();
         this._batteryIndicator = null;
 
+        // Do NOT destroy quickSettings.container — it's the real stock object,
+        // restoreBox() below puts it back where it came from.
         restoreBox(Main.panel._leftBox, this._boxSnapshots.left);
         restoreBox(Main.panel._centerBox, this._boxSnapshots.center);
         restoreBox(Main.panel._rightBox, this._boxSnapshots.right);
