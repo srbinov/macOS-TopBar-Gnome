@@ -5,6 +5,7 @@ import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
+import {AppleMenuButton} from './lib/systemMenu.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
@@ -17,6 +18,10 @@ export default class MacosTopPanelExtension extends Extension {
         clearBox(Main.panel._leftBox);
         clearBox(Main.panel._centerBox);
         clearBox(Main.panel._rightBox);
+
+        this._appleMenu = new AppleMenuButton();
+        Main.panel.menuManager.addMenu(this._appleMenu.menu);
+        Main.panel._leftBox.add_child(this._appleMenu.container);
 
         this._batteryIndicator = new BatteryIndicator();
         Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
@@ -49,6 +54,10 @@ export default class MacosTopPanelExtension extends Extension {
         Main.panel.menuManager.removeMenu(this._batteryIndicator.menu);
         this._batteryIndicator.destroy();
         this._batteryIndicator = null;
+
+        Main.panel.menuManager.removeMenu(this._appleMenu.menu);
+        this._appleMenu.destroy();
+        this._appleMenu = null;
 
         // Do NOT destroy quickSettings.container — it's the real stock object,
         // restoreBox() below puts it back where it came from.
