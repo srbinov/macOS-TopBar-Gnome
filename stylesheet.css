@@ -19,3 +19,11 @@
     font-weight: bold;
     padding: 0 8px;
 }
+
+.macos-static-menu-bar {
+    spacing: 14px;
+}
+
+.macos-static-menu-label {
+    font-size: 13px;
+}
