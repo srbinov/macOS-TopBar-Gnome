@@ -1,14 +1,4 @@
-/* macOS-style top panel — styling added incrementally in later tasks */
-
-.macos-clock {
-    spacing: 6px;
-    padding: 0 8px;
-}
-
-.macos-clock-date,
-.macos-clock-time {
-    font-size: 13px;
-}
+/* macOS-style top panel */
 
 .macos-apple-glyph {
     font-size: 16px;
@@ -22,8 +12,19 @@
 
 .macos-static-menu-bar {
     spacing: 14px;
+    padding-left: 4px;
 }
 
 .macos-static-menu-label {
+    font-size: 13px;
+}
+
+.macos-clock {
+    spacing: 6px;
+    padding: 0 10px;
+}
+
+.macos-clock-date,
+.macos-clock-time {
     font-size: 13px;
 }
