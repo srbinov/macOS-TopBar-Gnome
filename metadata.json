@@ -1,0 +1,6 @@
+{
+    "uuid": "macos-top-panel@local.dev",
+    "name": "macOS-style Top Panel",
+    "description": "Replaces the GNOME top bar with a macOS-style menu bar. Personal use only.",
+    "shell-version": ["50"]
+}
