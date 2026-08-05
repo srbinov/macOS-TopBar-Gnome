@@ -1,11 +1,25 @@
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+
+import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
-        console.log('[macos-top-panel] enable() called');
+        this._boxSnapshots = {
+            left: snapshotBox(Main.panel._leftBox),
+            center: snapshotBox(Main.panel._centerBox),
+            right: snapshotBox(Main.panel._rightBox),
+        };
+
+        clearBox(Main.panel._leftBox);
+        clearBox(Main.panel._centerBox);
+        clearBox(Main.panel._rightBox);
     }
 
     disable() {
-        console.log('[macos-top-panel] disable() called');
+        restoreBox(Main.panel._leftBox, this._boxSnapshots.left);
+        restoreBox(Main.panel._centerBox, this._boxSnapshots.center);
+        restoreBox(Main.panel._rightBox, this._boxSnapshots.right);
+        this._boxSnapshots = null;
     }
 }
