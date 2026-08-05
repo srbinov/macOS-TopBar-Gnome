@@ -6,6 +6,7 @@ import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
 import {AppleMenuButton} from './lib/systemMenu.js';
+import {AppNameButton} from './lib/appNameIndicator.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
@@ -22,6 +23,10 @@ export default class MacosTopPanelExtension extends Extension {
         this._appleMenu = new AppleMenuButton();
         Main.panel.menuManager.addMenu(this._appleMenu.menu);
         Main.panel._leftBox.add_child(this._appleMenu.container);
+
+        this._appNameButton = new AppNameButton();
+        Main.panel.menuManager.addMenu(this._appNameButton.menu);
+        Main.panel._leftBox.add_child(this._appNameButton.container);
 
         this._batteryIndicator = new BatteryIndicator();
         Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
@@ -54,6 +59,10 @@ export default class MacosTopPanelExtension extends Extension {
         Main.panel.menuManager.removeMenu(this._batteryIndicator.menu);
         this._batteryIndicator.destroy();
         this._batteryIndicator = null;
+
+        Main.panel.menuManager.removeMenu(this._appNameButton.menu);
+        this._appNameButton.destroy();
+        this._appNameButton = null;
 
         Main.panel.menuManager.removeMenu(this._appleMenu.menu);
         this._appleMenu.destroy();

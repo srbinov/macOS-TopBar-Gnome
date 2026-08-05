@@ -14,3 +14,8 @@
     font-size: 16px;
     padding: 0 10px;
 }
+
+.macos-app-name {
+    font-weight: bold;
+    padding: 0 8px;
+}
