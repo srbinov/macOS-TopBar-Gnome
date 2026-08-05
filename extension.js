@@ -11,68 +11,78 @@ import {StaticMenuBar} from './lib/staticMenuBar.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
-        this._boxSnapshots = {
-            left: snapshotBox(Main.panel._leftBox),
-            center: snapshotBox(Main.panel._centerBox),
-            right: snapshotBox(Main.panel._rightBox),
-        };
+        try {
+            this._boxSnapshots = {
+                left: snapshotBox(Main.panel._leftBox),
+                center: snapshotBox(Main.panel._centerBox),
+                right: snapshotBox(Main.panel._rightBox),
+            };
 
-        clearBox(Main.panel._leftBox);
-        clearBox(Main.panel._centerBox);
-        clearBox(Main.panel._rightBox);
+            clearBox(Main.panel._leftBox);
+            clearBox(Main.panel._centerBox);
+            clearBox(Main.panel._rightBox);
 
-        this._appleMenu = new AppleMenuButton();
-        Main.panel.menuManager.addMenu(this._appleMenu.menu);
-        Main.panel._leftBox.add_child(this._appleMenu.container);
+            this._appleMenu = new AppleMenuButton();
+            Main.panel.menuManager.addMenu(this._appleMenu.menu);
+            Main.panel._leftBox.add_child(this._appleMenu.container);
 
-        this._appNameButton = new AppNameButton();
-        Main.panel.menuManager.addMenu(this._appNameButton.menu);
-        Main.panel._leftBox.add_child(this._appNameButton.container);
+            this._appNameButton = new AppNameButton();
+            Main.panel.menuManager.addMenu(this._appNameButton.menu);
+            Main.panel._leftBox.add_child(this._appNameButton.container);
 
-        this._staticMenuBar = new StaticMenuBar();
-        Main.panel._leftBox.add_child(this._staticMenuBar);
+            this._staticMenuBar = new StaticMenuBar();
+            Main.panel._leftBox.add_child(this._staticMenuBar);
 
-        this._batteryIndicator = new BatteryIndicator();
-        Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
-        Main.panel._rightBox.add_child(this._batteryIndicator.container);
+            this._batteryIndicator = new BatteryIndicator();
+            Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
+            Main.panel._rightBox.add_child(this._batteryIndicator.container);
 
-        this._wifiIndicator = new WifiIndicator();
-        Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
-        Main.panel._rightBox.add_child(this._wifiIndicator.container);
+            this._wifiIndicator = new WifiIndicator();
+            Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
+            Main.panel._rightBox.add_child(this._wifiIndicator.container);
 
-        // Control Center: reuse the real stock Quick Settings button, just relocated.
-        const quickSettings = Main.panel.statusArea.quickSettings;
-        quickSettings.container.show();
-        Main.panel._rightBox.add_child(quickSettings.container);
+            // Control Center: reuse the real stock Quick Settings button, just relocated.
+            const quickSettings = Main.panel.statusArea.quickSettings;
+            quickSettings.container.show();
+            Main.panel._rightBox.add_child(quickSettings.container);
 
-        this._clockWidget = new ClockWidget();
-        Main.panel._rightBox.add_child(this._clockWidget);
+            this._clockWidget = new ClockWidget();
+            Main.panel._rightBox.add_child(this._clockWidget);
+        } catch (e) {
+            logError(e, '[macos-top-panel] enable() failed, rolling back');
+            this.disable();
+            throw e;
+        }
     }
 
     disable() {
         if (!this._boxSnapshots)
             return;
 
-        this._clockWidget.destroy();
+        this._clockWidget?.destroy();
         this._clockWidget = null;
 
-        Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
-        this._wifiIndicator.destroy();
+        if (this._wifiIndicator?.menu)
+            Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
+        this._wifiIndicator?.destroy();
         this._wifiIndicator = null;
 
-        Main.panel.menuManager.removeMenu(this._batteryIndicator.menu);
-        this._batteryIndicator.destroy();
+        if (this._batteryIndicator?.menu)
+            Main.panel.menuManager.removeMenu(this._batteryIndicator.menu);
+        this._batteryIndicator?.destroy();
         this._batteryIndicator = null;
 
-        this._staticMenuBar.destroy();
+        this._staticMenuBar?.destroy();
         this._staticMenuBar = null;
 
-        Main.panel.menuManager.removeMenu(this._appNameButton.menu);
-        this._appNameButton.destroy();
+        if (this._appNameButton?.menu)
+            Main.panel.menuManager.removeMenu(this._appNameButton.menu);
+        this._appNameButton?.destroy();
         this._appNameButton = null;
 
-        Main.panel.menuManager.removeMenu(this._appleMenu.menu);
-        this._appleMenu.destroy();
+        if (this._appleMenu?.menu)
+            Main.panel.menuManager.removeMenu(this._appleMenu.menu);
+        this._appleMenu?.destroy();
         this._appleMenu = null;
 
         // Do NOT destroy quickSettings.container — it's the real stock object,
