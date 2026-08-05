@@ -17,6 +17,9 @@ export default class MacosTopPanelExtension extends Extension {
     }
 
     disable() {
+        if (!this._boxSnapshots)
+            return;
+
         restoreBox(Main.panel._leftBox, this._boxSnapshots.left);
         restoreBox(Main.panel._centerBox, this._boxSnapshots.center);
         restoreBox(Main.panel._rightBox, this._boxSnapshots.right);
