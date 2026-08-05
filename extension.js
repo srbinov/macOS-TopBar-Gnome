@@ -4,6 +4,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
+import {WifiIndicator} from './lib/wifiIndicator.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
@@ -21,6 +22,10 @@ export default class MacosTopPanelExtension extends Extension {
         Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
         Main.panel._rightBox.add_child(this._batteryIndicator.container);
 
+        this._wifiIndicator = new WifiIndicator();
+        Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
+        Main.panel._rightBox.add_child(this._wifiIndicator.container);
+
         this._clockWidget = new ClockWidget();
         Main.panel._rightBox.add_child(this._clockWidget);
     }
@@ -31,6 +36,10 @@ export default class MacosTopPanelExtension extends Extension {
 
         this._clockWidget.destroy();
         this._clockWidget = null;
+
+        Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
+        this._wifiIndicator.destroy();
+        this._wifiIndicator = null;
 
         Main.panel.menuManager.removeMenu(this._batteryIndicator.menu);
         this._batteryIndicator.destroy();
