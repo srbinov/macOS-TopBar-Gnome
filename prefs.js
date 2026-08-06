@@ -725,11 +725,74 @@ function buildPanelPage(settings) {
     });
     page.add(clockGroup);
 
-    const fontFamilyRow = new Adw.EntryRow({ title: 'Font Family' });
-    fontFamilyRow.set_text(settings.get_string('clock-font-family'));
-    fontFamilyRow.connect('notify::text',
-        () => settings.set_string('clock-font-family', fontFamilyRow.get_text()));
-    clockGroup.add(fontFamilyRow);
+    const fontFileRow = new Adw.ActionRow({
+        title: 'Font',
+        subtitle: settings.get_string('clock-font-family') || 'Panel default (SF Pro Display)',
+    });
+    clockGroup.add(fontFileRow);
+
+    const installFontFile = file => {
+        try {
+            const destDir = GLib.build_filenamev([GLib.get_home_dir(), '.local', 'share', 'fonts']);
+            GLib.mkdir_with_parents(destDir, 0o755);
+
+            const destFile = Gio.File.new_for_path(
+                GLib.build_filenamev([destDir, file.get_basename()]));
+            file.copy(destFile, Gio.FileCopyFlags.OVERWRITE, null, null);
+
+            Gio.Subprocess.new(['fc-cache', '-f', destDir], Gio.SubprocessFlags.NONE).wait(null);
+
+            const scanProc = Gio.Subprocess.new(
+                ['fc-scan', '--format', '%{family[0]}', destFile.get_path()],
+                Gio.SubprocessFlags.STDOUT_PIPE);
+            const [, stdoutBytes] = scanProc.communicate(null, null);
+            const family = new TextDecoder().decode(stdoutBytes.toArray()).trim();
+
+            if (family) {
+                settings.set_string('clock-font-family', family);
+                fontFileRow.subtitle = family;
+            } else {
+                fontFileRow.subtitle = 'Installed, but couldn\'t read the font\'s name';
+            }
+        } catch (e) {
+            logError(e, 'Failed to install dropped font file');
+            fontFileRow.subtitle = 'Failed to install that file';
+        }
+    };
+
+    const chooseButton = new Gtk.Button({ label: 'Choose or Drop File…', valign: Gtk.Align.CENTER });
+    chooseButton.connect('clicked', () => {
+        const dialog = new Gtk.FileDialog({ title: 'Choose Font File' });
+        const filter = new Gtk.FileFilter({ name: 'Font Files' });
+        filter.add_pattern('*.ttf');
+        filter.add_pattern('*.otf');
+        filter.add_pattern('*.ttc');
+        filter.add_pattern('*.otc');
+        const filters = new Gio.ListStore({ item_type: Gtk.FileFilter });
+        filters.append(filter);
+        dialog.set_filters(filters);
+        dialog.open(fontFileRow.get_root(), null, (source, result) => {
+            try {
+                const file = dialog.open_finish(result);
+                if (file)
+                    installFontFile(file);
+            } catch (e) {
+                // Cancelled -- not an error.
+            }
+        });
+    });
+    fontFileRow.add_suffix(chooseButton);
+    fontFileRow.activatable_widget = chooseButton;
+
+    const dropTarget = new Gtk.DropTarget({ actions: Gdk.DragAction.COPY });
+    dropTarget.set_gtypes([Gdk.FileList]);
+    dropTarget.connect('drop', (_target, value) => {
+        const files = value.get_files();
+        if (files.length > 0)
+            installFontFile(files[0]);
+        return true;
+    });
+    fontFileRow.add_controller(dropTarget);
 
     const fontSizeRow = new Adw.SpinRow({
         title: 'Font Size',
