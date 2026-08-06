@@ -732,6 +732,7 @@ function buildPanelPage(settings) {
     clockGroup.add(fontFileRow);
 
     const installFontFile = file => {
+        fontFileRow.subtitle = 'Installing…';
         try {
             const destDir = GLib.build_filenamev([GLib.get_home_dir(), '.local', 'share', 'fonts']);
             GLib.mkdir_with_parents(destDir, 0o755);
@@ -740,23 +741,30 @@ function buildPanelPage(settings) {
                 GLib.build_filenamev([destDir, file.get_basename()]));
             file.copy(destFile, Gio.FileCopyFlags.OVERWRITE, null, null);
 
-            Gio.Subprocess.new(['fc-cache', '-f', destDir], Gio.SubprocessFlags.NONE).wait(null);
-
+            // fc-scan reads the font file's own metadata directly, so it
+            // doesn't need fontconfig's cache rebuilt first.
             const scanProc = Gio.Subprocess.new(
                 ['fc-scan', '--format', '%{family[0]}', destFile.get_path()],
-                Gio.SubprocessFlags.STDOUT_PIPE);
-            const [, stdoutBytes] = scanProc.communicate(null, null);
+                Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE);
+            const [, stdoutBytes, stderrBytes] = scanProc.communicate(null, null);
             const family = new TextDecoder().decode(stdoutBytes.toArray()).trim();
+
+            // Rebuild fontconfig's cache in the background (not awaited)
+            // so the shell can actually resolve the font by name later.
+            Gio.Subprocess.new(['fc-cache', '-f', destDir], Gio.SubprocessFlags.NONE);
 
             if (family) {
                 settings.set_string('clock-font-family', family);
                 fontFileRow.subtitle = family;
             } else {
-                fontFileRow.subtitle = 'Installed, but couldn\'t read the font\'s name';
+                const stderrText = new TextDecoder().decode(stderrBytes.toArray()).trim();
+                fontFileRow.subtitle = stderrText
+                    ? `Installed, but couldn't read its name: ${stderrText}`
+                    : 'Installed, but couldn\'t read the font\'s name';
             }
         } catch (e) {
             logError(e, 'Failed to install dropped font file');
-            fontFileRow.subtitle = 'Failed to install that file';
+            fontFileRow.subtitle = `Error: ${e.message}`;
         }
     };
 
@@ -777,7 +785,12 @@ function buildPanelPage(settings) {
                 if (file)
                     installFontFile(file);
             } catch (e) {
-                // Cancelled -- not an error.
+                // Cancelling/dismissing the dialog also throws -- only
+                // surface anything that isn't that.
+                const isUserCancel = e.matches?.(Gtk.DialogError, Gtk.DialogError.DISMISSED) ||
+                    e.matches?.(Gtk.DialogError, Gtk.DialogError.CANCELLED);
+                if (!isUserCancel)
+                    logError(e, 'Font file dialog failed');
             }
         });
     });
