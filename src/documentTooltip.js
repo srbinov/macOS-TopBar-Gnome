@@ -13,7 +13,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 const TOOLTIP_DELAY_MS = 1000;
 
 export const DocumentTooltip = GObject.registerClass(
-  { GTypeName: 'KiwiMenuDocumentTooltip' },
+  { GTypeName: 'MacosTopPanelDocumentTooltip' },
   class DocumentTooltip extends St.Label {
     _init(targetActor, text, delayMs = TOOLTIP_DELAY_MS) {
       super._init({

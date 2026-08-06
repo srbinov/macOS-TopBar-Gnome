@@ -33,7 +33,7 @@ function loadIconsMetadata(sourcePath) {
 }
 
 const OptionsPage = GObject.registerClass(
-  { GTypeName: 'KiwiMenuOptionsPage' },
+  { GTypeName: 'MacosTopPanelOptionsPage' },
   class OptionsPage extends Adw.PreferencesPage {
     constructor(settings, sourcePath, gettextFunc) {
       super({

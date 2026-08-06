@@ -131,7 +131,7 @@ export class UserSwitcherController {
 }
 
 export const UserSwitcherButton = GObject.registerClass(
-  { GTypeName: 'KiwiMenuUserSwitcherButton' },
+  { GTypeName: 'MacosTopPanelUserSwitcherButton' },
   class UserSwitcherButton extends PanelMenu.Button {
     _init(extension) {
       super._init(1.0, 'KiwiUserSwitcher');

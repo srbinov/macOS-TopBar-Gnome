@@ -49,7 +49,7 @@ async function loadJsonFileAsync(basePath, segments, cancellable) {
 }
 
 export const KiwiMenu = GObject.registerClass(
-  { GTypeName: 'KiwiMenuButton' },
+  { GTypeName: 'MacosTopPanelKiwiMenuButton' },
   class KiwiMenu extends PanelMenu.Button {
     _init(settings, extensionPath, extension) {
       super._init(0.5, 'KiwiMenu');

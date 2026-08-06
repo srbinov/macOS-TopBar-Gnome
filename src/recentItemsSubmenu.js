@@ -51,7 +51,7 @@ async function loadFileTextAsync(file, cancellable) {
  * Manages hover state, timeouts, and pointer tracking for smooth UX.
  */
 export const RecentItemsSubmenu = GObject.registerClass(
-  { GTypeName: 'KiwiMenuRecentItemsSubmenu' },
+  { GTypeName: 'MacosTopPanelRecentItemsSubmenu' },
   class RecentItemsSubmenu extends PopupMenu.PopupBaseMenuItem {
     _init(title, parentMenu, recentMenuManager, extension, iconName) {
       super._init({
