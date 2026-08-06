@@ -716,6 +716,34 @@ function buildGlobalMenuGeneralPage(settings) {
     return page;
 }
 
+function buildPanelPage(settings) {
+    const page = new Adw.PreferencesPage({ title: 'Panel', icon_name: 'preferences-desktop-appearance-symbolic' });
+
+    const clockGroup = new Adw.PreferencesGroup({
+        title: 'Clock',
+        description: 'Font used for the date/time on the right of the panel.',
+    });
+    page.add(clockGroup);
+
+    const fontFamilyRow = new Adw.EntryRow({ title: 'Font Family' });
+    fontFamilyRow.set_text(settings.get_string('clock-font-family'));
+    fontFamilyRow.connect('notify::text',
+        () => settings.set_string('clock-font-family', fontFamilyRow.get_text()));
+    clockGroup.add(fontFamilyRow);
+
+    const fontSizeRow = new Adw.SpinRow({
+        title: 'Font Size',
+        subtitle: 'Pixels',
+        adjustment: new Gtk.Adjustment({ lower: 8, upper: 32, step_increment: 1 }),
+    });
+    fontSizeRow.value = settings.get_int('clock-font-size');
+    fontSizeRow.connect('notify::value',
+        () => settings.set_int('clock-font-size', fontSizeRow.get_value()));
+    clockGroup.add(fontSizeRow);
+
+    return page;
+}
+
 function buildGlobalMenuMenusPage(settings) {
         const page = new Adw.PreferencesPage({ title: 'Menus', icon_name: 'view-list-symbolic' });
         const group = new Adw.PreferencesGroup({
@@ -888,6 +916,7 @@ export default class MacosTopPanelPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const kiwiSettings = this.getSettings('org.gnome.shell.extensions.kiwimenu');
         const globalMenuSettings = this.getSettings('org.gnome.shell.extensions.globalmenu');
+        const panelSettings = this.getSettings('org.gnome.shell.extensions.macos-top-panel');
 
         window._settings = kiwiSettings;
         window.title = this.metadata.name ?? 'macOS-style Top Panel';
@@ -910,6 +939,7 @@ export default class MacosTopPanelPreferences extends ExtensionPreferences {
         window.add(buildGlobalMenuMenusPage(globalMenuSettings));
         window.add(buildGlobalMenuGeneralPage(globalMenuSettings));
         window.add(buildGlobalMenuCustomMenuPage(globalMenuSettings));
+        window.add(buildPanelPage(panelSettings));
     }
 
   _ensureVersionCss(window) {

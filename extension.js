@@ -5,8 +5,9 @@ import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
+import {SoundIndicator} from './lib/soundIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
-import {DuplicateIndicatorsController} from './lib/duplicateIndicators.js';
+import {ControlCenterIconController} from './lib/controlCenterIcon.js';
 import {KiwiMenu} from './src/kiwimenu.js';
 import {QuickSettingsActionsController} from './src/hideQSbuttons.js';
 import {UserSwitcherController} from './src/userSwitcher.js';
@@ -16,6 +17,7 @@ export default class MacosTopPanelExtension extends Extension {
         try {
             this._kiwiSettings = this.getSettings('org.gnome.shell.extensions.kiwimenu');
             this._globalMenuSettings = this.getSettings('org.gnome.shell.extensions.globalmenu');
+            this._panelSettings = this.getSettings('org.gnome.shell.extensions.macos-top-panel');
 
             this._boxSnapshots = {
                 left: snapshotBox(Main.panel._leftBox),
@@ -42,7 +44,7 @@ export default class MacosTopPanelExtension extends Extension {
             }, this);
             this._syncGlobalMenuVisibility();
 
-            this._batteryIndicator = new BatteryIndicator();
+            this._batteryIndicator = new BatteryIndicator(this.path);
             Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
             Main.panel._rightBox.add_child(this._batteryIndicator.container);
 
@@ -50,16 +52,21 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
             Main.panel._rightBox.add_child(this._wifiIndicator.container);
 
+            this._soundIndicator = new SoundIndicator();
+            Main.panel.menuManager.addMenu(this._soundIndicator.menu);
+            Main.panel._rightBox.add_child(this._soundIndicator.container);
+
             // Control Center: reuse the real stock Quick Settings button, just relocated.
             const quickSettings = Main.panel.statusArea.quickSettings;
             quickSettings.container.show();
             Main.panel._rightBox.add_child(quickSettings.container);
 
-            // Hide the stock wifi/battery icons inside it — our own
-            // WifiIndicator/BatteryIndicator already show that info.
-            this._duplicateIndicators = new DuplicateIndicatorsController();
+            // Replace the stock wifi/battery/etc. icons on its face with a
+            // single macOS-style Control Center icon — our own indicators
+            // already show battery/wifi/sound.
+            this._controlCenterIcon = new ControlCenterIconController(this.path);
 
-            this._clockWidget = new ClockWidget();
+            this._clockWidget = new ClockWidget(this._panelSettings);
             Main.panel._rightBox.add_child(this._clockWidget);
         } catch (e) {
             logError(e, '[macos-top-panel] enable() failed, rolling back');
@@ -94,11 +101,16 @@ export default class MacosTopPanelExtension extends Extension {
         this._clockWidget?.destroy();
         this._clockWidget = null;
 
-        this._duplicateIndicators?.destroy();
-        this._duplicateIndicators = null;
+        this._controlCenterIcon?.destroy();
+        this._controlCenterIcon = null;
 
         // Do NOT destroy quickSettings.container — it's the real stock object,
         // restoreBox() below puts it back where it came from.
+
+        if (this._soundIndicator?.menu)
+            Main.panel.menuManager.removeMenu(this._soundIndicator.menu);
+        this._soundIndicator?.destroy();
+        this._soundIndicator = null;
 
         if (this._wifiIndicator?.menu)
             Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
@@ -129,5 +141,6 @@ export default class MacosTopPanelExtension extends Extension {
 
         this._kiwiSettings = null;
         this._globalMenuSettings = null;
+        this._panelSettings = null;
     }
 }

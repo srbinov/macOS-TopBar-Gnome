@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema id="org.gnome.shell.extensions.macos-top-panel" path="/org/gnome/shell/extensions/macos-top-panel/">
+        <key type="s" name="clock-font-family">
+            <default>''</default>
+            <summary>Clock font family</summary>
+            <description>Font family for the date/time labels. Empty string inherits the panel's default font.</description>
+        </key>
+        <key type="i" name="clock-font-size">
+            <default>13</default>
+            <range min="8" max="32"/>
+            <summary>Clock font size</summary>
+            <description>Font size in pixels for the date/time labels.</description>
+        </key>
+    </schema>
+</schemalist>
