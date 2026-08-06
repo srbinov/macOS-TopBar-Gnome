@@ -1,0 +1,253 @@
+# Finnish translation for Kiwi Menu
+# Copyright (C) 2026 Arnis Kemlers
+# This file is distributed under the same license as the kiwimenu package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kiwimenu\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2025-10-27 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Finnish\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "Tietoja tästä tietokoneesta"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "Järjestelmäasetukset..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "Sovelluskauppa..."
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "Viimeisimmät kohteet"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "Pakota lopetus"
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "Unitila"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "Käynnistä uudelleen..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "Sammuta..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "Lukitse näyttö"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "Vaihda käyttäjää..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "Kirjaudu ulos..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "Kirjaudu ulos %s..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "Ei viimeaikaisia kohteita"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "Asiakirjat"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "Kansiot"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "Sovellukset"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "Tyhjennä valikko"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "Sopivia käyttäjätilejä ei löytynyt"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "Kirjautumisikkuna..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "Käyttäjien ja ryhmien asetukset..."
+
+#: prefs.js
+msgid "Options"
+msgstr "Asetukset"
+
+#: prefs.js
+msgid "Menu"
+msgstr "Valikko"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "Mukauta Kiwi-valikon ulkonäköä ja toimintaa."
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "Valikon kuvake"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "Sovelluskaupan komento"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "App Store -valikkokohtaa avattaessa käynnistettävä komento."
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "Mukautettu valikkokohta"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr "Lisää mukautettu valikkomerkintä omalla otsikolla ja komennolla."
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "Valikon otsikko"
+
+#: prefs.js
+msgid "Command"
+msgstr "Komento"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "Palauta oletus"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "Valitse paneelissa näytettävä kuvake."
+
+#: prefs.js
+msgid "Panel"
+msgstr "Paneeli"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Piilota tai näytä Toiminnot-painike yläpalkissa."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Piilota Toiminnot-valikko"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "Näytä Toiminnot-painike yläpaneelissa."
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "Pika-asetukset"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Valitse mitkä oletuspikatoimintopainikkeet pysyvät näkyvissä."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Piilota Lukitse näyttö -painike"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Poistaa lukitusnäytön pikatoimintopainikkeen."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Piilota virtapainike"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Poistaa virtavalikon pikatoimintopainikkeen."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Piilota Asetukset-painike"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Poistaa Asetukset-pikakuvakkeen pikatoimintopainikkeen."
+
+#: prefs.js
+msgid "About"
+msgstr "Tietoja"
+
+#: prefs.js
+msgid "Website"
+msgstr "Verkkosivusto"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "Ilmoita ongelmasta"
+
+#: prefs.js
+msgid "Credits"
+msgstr "Tekijät"
+
+#: prefs.js
+msgid "Legal"
+msgstr "Lakiasiat"
+
+#: prefs.js
+msgid "License"
+msgstr "Lisenssi"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi Menu on ilmainen ja avoimen lähdekoodin ohjelmisto."
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "GNU yleinen julkinen lisenssi v3.0"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "Tekijänoikeus"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Tekijänoikeus © 2026 Arnis Kemlers. Lisensoitu GNU yleisen julkisen "
+"lisenssin version 3 tai myöhemmän ehtojen mukaisesti."
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "Ryhdy sponsoriksi GitHubissa"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "Sponsoroi minua ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "Käytä muutoksia"
+
+#: prefs.js
+msgid "Change log"
+msgstr "Muutosloki"

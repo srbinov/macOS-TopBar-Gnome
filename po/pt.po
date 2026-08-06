@@ -1,0 +1,254 @@
+# Portuguese translation for Kiwi Menu
+# Copyright (C) 2026 Arnis Kemlers
+# This file is distributed under the same license as the kiwimenu package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kiwimenu\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2025-10-27 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "Sobre este PC"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "Definições do sistema..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "Loja de aplicações..."
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "Itens recentes"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "Forçar encerramento"
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "Suspender"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "Reiniciar..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "Encerrar..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "Bloquear ecrã"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "Trocar de utilizador..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "Terminar sessão..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "Terminar sessão de %s..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "Sem itens recentes"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "Documentos"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "Pastas"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "Aplicações"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "Limpar menu"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "Nenhuma conta de utilizador elegível encontrada"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "Janela de início de sessão..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "Definições de utilizadores e grupos..."
+
+#: prefs.js
+msgid "Options"
+msgstr "Opções"
+
+#: prefs.js
+msgid "Menu"
+msgstr "Menu"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "Ajuste a aparência e o comportamento do Kiwi Menu."
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "Ícone do menu"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "Comando da loja de aplicações"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "Comando executado ao abrir o item de menu da App Store."
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "Item de menu personalizado"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr ""
+"Adicione uma entrada de menu personalizada com seu próprio rótulo e comando."
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "Rótulo do menu"
+
+#: prefs.js
+msgid "Command"
+msgstr "Comando"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "Restaurar padrão"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "Escolha o ícone a apresentar no painel."
+
+#: prefs.js
+msgid "Panel"
+msgstr "Painel"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Ocultar ou mostrar o botão Atividades na barra superior."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Ocultar menu de atividades"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "Apresentar o botão Atividades no painel superior."
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "Configurações rápidas"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Escolha quais ações rápidas padrão permanecem visíveis."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Ocultar botão Bloquear tela"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Remove a ação rápida de bloquear a tela."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Ocultar botão Energia"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Remove a ação rápida do menu de energia."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Ocultar botão Configurações"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Remove a ação rápida do atalho para Configurações."
+
+#: prefs.js
+msgid "About"
+msgstr "Sobre"
+
+#: prefs.js
+msgid "Website"
+msgstr "Website"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "Reportar um problema"
+
+#: prefs.js
+msgid "Credits"
+msgstr "Créditos"
+
+#: prefs.js
+msgid "Legal"
+msgstr "Legal"
+
+#: prefs.js
+msgid "License"
+msgstr "Licença"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi Menu é um software gratuito e de código aberto."
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "Licença Pública Geral GNU v3.0"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "Direitos de autor"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Direitos de autor © 2026 Arnis Kemlers. Licenciado sob os termos da Licença "
+"Pública Geral GNU versão 3 ou posterior."
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "Torna-te um patrocinador no GitHub"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "Patrocina-me ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "Aplicar alterações"
+
+#: prefs.js
+msgid "Change log"
+msgstr "Registo de alterações"

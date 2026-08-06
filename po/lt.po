@@ -1,0 +1,254 @@
+# Lithuanian translation for Kiwi Menu
+# Copyright (C) 2026 Arnis Kemlers
+# This file is distributed under the same license as the kiwimenu package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kiwimenu\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2025-10-27 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Lithuanian\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "Apie šį kompiuterį"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "Sistemos nustatymai..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "Programų parduotuvė..."
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "Naujausi elementai"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "Priverstinis išjungimas"
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "Užmigdyti"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "Paleisti iš naujo..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "Išjungti..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "Užrakinti ekraną"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "Perjungti vartotoją..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "Atsijungti..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "Atsijungti %s..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "Nėra naujausių elementų"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "Dokumentai"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "Aplankai"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "Programos"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "Išvalyti meniu"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "Nerasta tinkamų naudotojų paskyrų"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "Prisijungimo langas..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "Naudotojų ir grupių nustatymai..."
+
+#: prefs.js
+msgid "Options"
+msgstr "Parinktys"
+
+#: prefs.js
+msgid "Menu"
+msgstr "Meniu"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "Pritaikykite Kiwi meniu išvaizdą ir elgesį."
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "Meniu piktograma"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "Programų parduotuvės komanda"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "Komanda paleidžiama atidarant programų parduotuvės meniu elementą."
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "Pasirinktinis meniu elementas"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr "Pridėkite pasirinktinį meniu įrašą su savo etikete ir komanda."
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "Meniu etiketė"
+
+#: prefs.js
+msgid "Command"
+msgstr "Komanda"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "Atkurti numatytąjį"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "Pasirinkite piktogramą, kuri bus rodoma skydelyje."
+
+#: prefs.js
+msgid "Panel"
+msgstr "Skydelis"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Slėpti arba rodyti veiklos mygtuką viršutinėje juostoje."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Slėpti veiklos meniu"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "Rodyti veiklos mygtuką viršutiniame skydelyje."
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "Greitieji nustatymai"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr ""
+"Pasirinkite, kurie numatytieji greitųjų veiksmų mygtukai turi likti matomi."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Slėpti užrakinti ekraną mygtuką"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Pašalina užrakinto ekrano greitojo veiksmo mygtuką."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Slėpti maitinimo mygtuką"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Pašalina maitinimo meniu greitojo veiksmo mygtuką."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Slėpti nustatymų mygtuką"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Pašalina nustatymų nuorodos greitojo veiksmo mygtuką."
+
+#: prefs.js
+msgid "About"
+msgstr "Apie"
+
+#: prefs.js
+msgid "Website"
+msgstr "Svetainė"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "Pranešti apie problemą"
+
+#: prefs.js
+msgid "Credits"
+msgstr "Autoriai"
+
+#: prefs.js
+msgid "Legal"
+msgstr "Teisinė informacija"
+
+#: prefs.js
+msgid "License"
+msgstr "Licencija"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi Menu yra nemokama ir atvirojo kodo programinė įranga."
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "GNU Bendroji Viešoji Licencija v3.0"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "Autorių teisės"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Autorių teisės © 2026 Arnis Kemlers. Licencijuota pagal GNU bendrosios "
+"viešosios licencijos 3 ar vėlesnės versijos sąlygas."
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "Tapk rėmėju GitHub platformoje"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "Paremk mane ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "Taikyti pakeitimus"
+
+#: prefs.js
+msgid "Change log"
+msgstr "Pakeitimų žurnalas"

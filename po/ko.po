@@ -1,0 +1,255 @@
+# Copyright (C) YEAR Arnis Kemlers
+# This file is distributed under the same license as the Kiwi Menu package.
+#
+# SPDX-FileCopyrightText: 2025 Markson Hosben <marksonhosben@proton.me>
+msgid ""
+msgstr ""
+"Project-Id-Version: Kiwi Menu 1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2025-11-10 14:28+0900\n"
+"Last-Translator: \n"
+"Language-Team: Korean\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.8\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "시스템 정보"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "시스템 설정..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "앱 스토어"
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "최근 항목"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "강제 종료"
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "절전"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "다시 시작..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "컴퓨터 끄기..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "화면 잠그기"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "사용자 전환..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "로그 아웃..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "로그 아웃 “%s”..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "최근 항목 없음"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "문서"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "폴더"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "앱"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "메뉴 지우기"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "적합한 사용자 계정을 찾을 수 없습니다"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "로그인 창..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "사용자 및 그룹 설정..."
+
+#: prefs.js
+msgid "Options"
+msgstr "옵션"
+
+#: prefs.js
+msgid "Menu"
+msgstr "메뉴"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "Kiwi 메뉴의 동작과 모습을 조정합니다."
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "메뉴 아이콘"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "App Store 실행 명령"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "앱 스토어 메뉴 항목을 열 때 실행되는 명령입니다."
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "사용자 정의 메뉴 항목"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr "고유한 레이블과 명령으로 사용자 정의 메뉴 항목을 추가합니다."
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "메뉴 레이블"
+
+#: prefs.js
+msgid "Command"
+msgstr "명령"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "기본값 복원"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "패널에 표시할 아이콘을 선택하십시오."
+
+#: prefs.js
+msgid "Panel"
+msgstr "패널"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "상단 바의 활동 단추를 보이거나 숨깁니다."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "활동 메뉴 숨기기"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "활동 단추를 상단 패널에 표시합니다."
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "빠른 설정"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "표시 가능한 기본 빠른 실행 단추를 선택합니다."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "화면 잠그기 단추 숨기기"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "화면 잠그기 빠른 실행 단추를 제거합니다."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "전원 단추 숨기기"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "전원 메뉴 빠른 실행 단추를 제거합니다."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "설정 단추 숨기기"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "설정 바로가기 빠른 실행 단추를 제거합니다."
+
+#: prefs.js
+msgid "About"
+msgstr "정보"
+
+#: prefs.js
+msgid "Website"
+msgstr "웹사이트"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "문제 보고"
+
+#: prefs.js
+msgid "Credits"
+msgstr "저작 정보"
+
+#: prefs.js
+msgid "Legal"
+msgstr "법적 정보"
+
+#: prefs.js
+msgid "License"
+msgstr "라이센스"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi 메뉴는 오픈소스 자유 소프트웨어입니다."
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "GNU 일반 공중 사용 허가서 v3.0"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "저작권"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"저작권 © 2026 Arnis Kemlers. GNU 일반 공중 사용 허가서 버전 3 이상의 조건에 "
+"따라 라이센스가 부여됩니다."
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "GitHub에서 후원자가 되기"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "후원하기 ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "변경사항 적용"
+
+#: prefs.js
+msgid "Change log"
+msgstr "변경 내역"

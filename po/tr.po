@@ -1,0 +1,254 @@
+# Kiwi Menu Turkish Translation.
+# Copyright (C) 2026 Arnis Kemlers
+# This file is distributed under the same license as the Kiwi Menu package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Kiwi Menu 1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2026-01-21 12:00+0300\n"
+"Last-Translator: \n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "Sistem Hakkında"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "Sistem Ayarları..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "Uygulama Mağazası..."
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "Son Kullanılanlar"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "Zorla Çık"
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "Uyku"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "Yeniden Başlat..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "Kapat..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "Ekranı Kilitle"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "Kullanıcı Değiştir..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "Oturumu Kapat..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "%s Oturumunu Kapat..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "Son kullanılan öge yok"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "Belgeler"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "Klasörler"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "Uygulamalar"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "Menüyü Temizle"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "Uygun kullanıcı hesabı bulunamadı"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "Giriş Ekranı..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "Kullanıcılar ve Grup Ayarları..."
+
+#: prefs.js
+msgid "Options"
+msgstr "Seçenekler"
+
+#: prefs.js
+msgid "Menu"
+msgstr "Menü"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "Kiwi Menüsünün görünümünü ve davranışını ayarla."
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "Menü Simgesi"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "Uygulama Mağazası Komutu"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "Uygulama Mağazası menü ögesi açıldığında çalıştırılacak komut."
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "Özel Menü Ögesi"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr "Kendi etiketiniz ve komutunuzla özel bir menü girdisi ekleyin."
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "Menü Etiketi"
+
+#: prefs.js
+msgid "Command"
+msgstr "Komut"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "Varsayılana Döndür"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "Panelde gösterilecek simgeyi seç."
+
+#: prefs.js
+msgid "Panel"
+msgstr "Panel"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Üst çubuktaki Etkinlikler düğmesini gizle veya göster."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Etkinlikler Menüsünü Gizle"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "Üst panelde Etkinlikler düğmesini göster."
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "Hızlı Ayarlar"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Hangi varsayılan hızlı işlem düğmelerinin görünür kalacağını seç."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Ekran Kilitleme Düğmesini Gizle"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Ekran kilitleme hızlı işlem düğmesini kaldır."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Güç Düğmesini Gizle"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Güç menüsü hızlı işlem düğmesini kaldır."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Ayarlar Düğmesini Gizle"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Ayarlar kısayolu hızlı işlem düğmesini kaldır."
+
+#: prefs.js
+msgid "About"
+msgstr "Hakkında"
+
+#: prefs.js
+msgid "Website"
+msgstr "Web Sitesi"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "Sorun Bildir"
+
+#: prefs.js
+msgid "Credits"
+msgstr "Emeği Geçenler"
+
+#: prefs.js
+msgid "Legal"
+msgstr "Yasal"
+
+#: prefs.js
+msgid "License"
+msgstr "Lisans"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi Menu özgür ve açık kaynaklı bir yazılımdır."
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "GNU Genel Kamu Lisansı v3.0"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "Telif Hakkı"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Telif Hakkı © 2026 Arnis Kemlers. GNU Genel Kamu Lisansı sürüm 3 veya üzeri "
+"şartları altında lisanslanmıştır."
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "GitHub'da sponsor ol"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "Bana Destek Ol ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "Değişiklikleri Uygula"
+
+#: prefs.js
+msgid "Change log"
+msgstr "Değişiklik günlüğü"

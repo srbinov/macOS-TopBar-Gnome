@@ -1,0 +1,255 @@
+# Copyright (C) YEAR Arnis Kemlers
+# This file is distributed under the same license as the Kiwi Menu package.
+#
+# SPDX-FileCopyrightText: 2025 Markson Hosben <marksonhosben@proton.me>
+msgid ""
+msgstr ""
+"Project-Id-Version: Kiwi Menu 1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2025-11-02 10:45+0800\n"
+"Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
+"Language-Team: Chinese\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 23.08.5\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "关于本机"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "系统设置..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "App Store"
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "最近使用的项目"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "强制退出..."
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "睡眠"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "重新启动..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "关机..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "锁定屏幕"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "切换用户..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "退出登录..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "退出登录 “%s”..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "没有最近的项目"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "文档"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "文件夹"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "应用程序"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "清除菜单"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "未找到符合条件的用户账户"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "登录窗口..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "用户和组设置..."
+
+#: prefs.js
+msgid "Options"
+msgstr "选项"
+
+#: prefs.js
+msgid "Menu"
+msgstr "菜单"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "调整 Kiwi 菜单的外观与行为。"
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "菜单图标"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "App Store 启动命令"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "打开应用商店菜单项时启动的命令。"
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "自定义菜单项"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr "添加带有自定义标签和命令的菜单项。"
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "菜单标签"
+
+#: prefs.js
+msgid "Command"
+msgstr "命令"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "恢复默认"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "选择要在面板中显示的图标。"
+
+#: prefs.js
+msgid "Panel"
+msgstr "面板"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "显示或隐藏顶栏中的“活动”按钮。"
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "隐藏“活动”菜单"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "显示顶栏中的“活动”按钮。"
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "快捷设置"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "选择哪些默认的快捷按钮保持可见。"
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "隐藏锁屏按钮"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "移除“锁屏”快捷按钮。"
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "隐藏电源选项按钮"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "移除“电源选项”快捷按钮。"
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "隐藏设置按钮"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "隐藏设置快捷按钮。"
+
+#: prefs.js
+msgid "About"
+msgstr "关于"
+
+#: prefs.js
+msgid "Website"
+msgstr "网站"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "报告一个问题"
+
+#: prefs.js
+msgid "Credits"
+msgstr "致谢"
+
+#: prefs.js
+msgid "Legal"
+msgstr "法律"
+
+#: prefs.js
+msgid "License"
+msgstr "许可"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi 菜单是一个自由且开源的软件。"
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "GNU 通用公共许可证第 3 版"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "版权"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"版权所有 © 2026 Arnis Kemlers。依据 GNU 通用公共许可证第 3 版或更高版本的条款"
+"授权。"
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "在 GitHub 上成为赞助者"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "赞助我 ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "应用更改"
+
+#: prefs.js
+msgid "Change log"
+msgstr "更新日志"

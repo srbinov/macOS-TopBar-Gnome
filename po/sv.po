@@ -1,0 +1,253 @@
+# Swedish translation for Kiwi Menu
+# Copyright (C) 2026 Arnis Kemlers
+# This file is distributed under the same license as the kiwimenu package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kiwimenu\n"
+"Report-Msgid-Bugs-To: https://github.com/kem-a/kiwimenu-kemma/issues\n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2025-10-27 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Swedish\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/kiwimenu.js
+msgid "About This PC"
+msgstr "Om den här datorn"
+
+#: src/kiwimenu.js
+msgid "System Settings..."
+msgstr "Systeminställningar..."
+
+#: src/kiwimenu.js
+msgid "App Store..."
+msgstr "App Store..."
+
+#: src/kiwimenu.js
+msgid "Recent Items"
+msgstr "Senaste objekt"
+
+#: src/kiwimenu.js
+msgid "Force Quit"
+msgstr "Tvinga avslut"
+
+#: src/kiwimenu.js
+msgid "Sleep"
+msgstr "Viloläge"
+
+#: src/kiwimenu.js
+msgid "Restart..."
+msgstr "Starta om..."
+
+#: src/kiwimenu.js
+msgid "Shut Down..."
+msgstr "Stäng av..."
+
+#: src/kiwimenu.js
+msgid "Lock Screen"
+msgstr "Lås skärm"
+
+#: src/kiwimenu.js
+msgid "Switch User..."
+msgstr "Byt användare..."
+
+#: src/kiwimenu.js
+msgid "Log Out..."
+msgstr "Logga ut..."
+
+#: src/kiwimenu.js
+#, javascript-format
+msgid "Log Out %s..."
+msgstr "Logga ut %s..."
+
+#: src/recentItemsSubmenu.js
+msgid "No recent items"
+msgstr "Inga senaste objekt"
+
+#: src/recentItemsSubmenu.js
+msgid "Documents"
+msgstr "Dokument"
+
+#: src/recentItemsSubmenu.js
+msgid "Folders"
+msgstr "Mappar"
+
+#: src/recentItemsSubmenu.js
+msgid "Applications"
+msgstr "Program"
+
+#: src/recentItemsSubmenu.js
+msgid "Clear Menu"
+msgstr "Rensa meny"
+
+#: src/userSwitcher.js
+msgid "No eligible user accounts found"
+msgstr "Inga berättigade användarkonton hittades"
+
+#: src/userSwitcher.js
+msgid "Login Window..."
+msgstr "Inloggningsfönster..."
+
+#: src/userSwitcher.js
+msgid "Users & Groups Settings..."
+msgstr "Användar- och gruppinställningar..."
+
+#: prefs.js
+msgid "Options"
+msgstr "Alternativ"
+
+#: prefs.js
+msgid "Menu"
+msgstr "Meny"
+
+#: prefs.js
+msgid "Adjust how the Kiwi Menu looks and behaves."
+msgstr "Justera hur Kiwi-menyn ser ut och beter sig."
+
+#: prefs.js
+msgid "Menu Icon"
+msgstr "Menyikon"
+
+#: prefs.js
+msgid "App Store Command"
+msgstr "App Store-kommando"
+
+#: prefs.js
+msgid "Command launched when opening the App Store menu item."
+msgstr "Kommando som körs när App Store-menyalternativet öppnas."
+
+#: prefs.js
+msgid "Custom Menu Item"
+msgstr "Anpassat menyalternativ"
+
+#: prefs.js
+msgid "Add a custom menu entry with your own label and command."
+msgstr "Lägg till en anpassad menypost med din egen etikett och kommando."
+
+#: prefs.js
+msgid "Menu Label"
+msgstr "Menyetikett"
+
+#: prefs.js
+msgid "Command"
+msgstr "Kommando"
+
+#: prefs.js
+msgid "Restore Default"
+msgstr "Återställ standard"
+
+#: prefs.js
+msgid "Choose the icon to display in the panel."
+msgstr "Välj ikonen som ska visas i panelen."
+
+#: prefs.js
+msgid "Panel"
+msgstr "Panel"
+
+#: prefs.js
+msgid "Hide or show the Activities button from the top bar."
+msgstr "Dölj eller visa aktivitetsknappen från det övre fältet."
+
+#: prefs.js
+msgid "Hide Activities Menu"
+msgstr "Dölj aktivitetsmeny"
+
+#: prefs.js
+msgid "Display the Activities button in the top panel."
+msgstr "Visa aktivitetsknappen i den övre panelen."
+
+#: prefs.js
+msgid "Quick Settings"
+msgstr "Snabbinställningar"
+
+#: prefs.js
+msgid "Choose which default quick action buttons stay visible."
+msgstr "Välj vilka standard-snabbutföranden som ska vara synliga."
+
+#: prefs.js
+msgid "Hide Lock Screen Button"
+msgstr "Dölj knappen Låsskärm"
+
+#: prefs.js
+msgid "Remove the lock screen quick action button."
+msgstr "Tar bort snabbutförandet för låsskärmen."
+
+#: prefs.js
+msgid "Hide Power Button"
+msgstr "Dölj knappen Ström"
+
+#: prefs.js
+msgid "Remove the power menu quick action button."
+msgstr "Tar bort snabbutförandet för strömningsmenyn."
+
+#: prefs.js
+msgid "Hide Settings Button"
+msgstr "Dölj knappen Inställningar"
+
+#: prefs.js
+msgid "Remove the settings shortcut quick action button."
+msgstr "Tar bort snabbutförandet för genvägen till Inställningar."
+
+#: prefs.js
+msgid "About"
+msgstr "Om"
+
+#: prefs.js
+msgid "Website"
+msgstr "Webbplats"
+
+#: prefs.js
+msgid "Report an Issue"
+msgstr "Rapportera ett problem"
+
+#: prefs.js
+msgid "Credits"
+msgstr "Tack till"
+
+#: prefs.js
+msgid "Legal"
+msgstr "Juridisk information"
+
+#: prefs.js
+msgid "License"
+msgstr "Licens"
+
+#: prefs.js
+msgid "Kiwi Menu is free and open source software."
+msgstr "Kiwi Menu är fri programvara med öppen källkod."
+
+#: prefs.js
+msgid "GNU General Public License v3.0"
+msgstr "GNU General Public License v3.0"
+
+#: prefs.js
+msgid "Copyright"
+msgstr "Upphovsrätt"
+
+#: prefs.js
+msgid ""
+"Copyright © 2026 Arnis Kemlers. Licensed under the terms of the GNU General "
+"Public License version 3 or later."
+msgstr ""
+"Upphovsrätt © 2026 Arnis Kemlers. Licensierad under villkoren i GNU General "
+"Public License version 3 eller senare."
+
+#: prefs.js
+msgid "Become a sponsor on GitHub"
+msgstr "Bli sponsor på GitHub"
+
+#: prefs.js
+msgid "Sponsor Me ♡"
+msgstr "Sponsra mig ♡"
+
+#: prefs.js
+msgid "Apply Changes"
+msgstr "Verkställ ändringar"
+
+#: prefs.js
+msgid "Change log"
+msgstr "Ändringslogg"
