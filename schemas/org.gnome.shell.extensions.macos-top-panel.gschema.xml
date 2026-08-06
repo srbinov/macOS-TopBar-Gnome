@@ -12,5 +12,16 @@
             <summary>Clock font size</summary>
             <description>Font size in pixels for the date/time labels.</description>
         </key>
+        <key type="i" name="panel-height">
+            <default>0</default>
+            <range min="0" max="80"/>
+            <summary>Panel height</summary>
+            <description>Panel height in pixels. 0 uses the shell theme's default height.</description>
+        </key>
+        <key type="b" name="window-color-blend-enabled">
+            <default>true</default>
+            <summary>Match touching window color</summary>
+            <description>When a window's edge touches the top of the screen, the panel background samples and matches its color there instead of using the default background.</description>
+        </key>
     </schema>
 </schemalist>

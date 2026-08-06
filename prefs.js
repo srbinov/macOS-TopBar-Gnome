@@ -741,6 +741,29 @@ function buildPanelPage(settings) {
         () => settings.set_int('clock-font-size', fontSizeRow.get_value()));
     clockGroup.add(fontSizeRow);
 
+    const sizeGroup = new Adw.PreferencesGroup({ title: 'Size' });
+    page.add(sizeGroup);
+
+    const heightRow = new Adw.SpinRow({
+        title: 'Panel Height',
+        subtitle: '0 uses the shell theme\'s default height',
+        adjustment: new Gtk.Adjustment({ lower: 0, upper: 80, step_increment: 1 }),
+    });
+    heightRow.value = settings.get_int('panel-height');
+    heightRow.connect('notify::value',
+        () => settings.set_int('panel-height', heightRow.get_value()));
+    sizeGroup.add(heightRow);
+
+    const colorGroup = new Adw.PreferencesGroup({ title: 'Background' });
+    page.add(colorGroup);
+
+    const blendRow = new Adw.SwitchRow({
+        title: 'Match Touching Window Color',
+        subtitle: 'When a window touches the top of the screen, the panel background samples and matches its color there',
+    });
+    colorGroup.add(blendRow);
+    settings.bind('window-color-blend-enabled', blendRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
     return page;
 }
 

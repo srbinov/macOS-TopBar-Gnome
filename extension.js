@@ -8,6 +8,7 @@ import {WifiIndicator} from './lib/wifiIndicator.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
 import {ControlCenterIconController} from './lib/controlCenterIcon.js';
+import {WindowColorBlend} from './lib/windowColorBlend.js';
 import {KiwiMenu} from './src/kiwimenu.js';
 import {QuickSettingsActionsController} from './src/hideQSbuttons.js';
 import {UserSwitcherController} from './src/userSwitcher.js';
@@ -68,11 +69,46 @@ export default class MacosTopPanelExtension extends Extension {
 
             this._clockWidget = new ClockWidget(this._panelSettings);
             Main.panel._rightBox.add_child(this._clockWidget);
+
+            this._blendColor = null;
+            this._windowColorBlend = new WindowColorBlend(
+                () => this._panelRect(),
+                color => {
+                    this._blendColor = color;
+                    this._applyPanelStyle();
+                });
+            this._windowColorBlend.enable();
+
+            this._panelSettingsChangedId = this._panelSettings.connect('changed', (_settings, key) => {
+                if (key === 'panel-height' || key === 'window-color-blend-enabled')
+                    this._applyPanelStyle();
+            });
+            this._applyPanelStyle();
         } catch (e) {
             logError(e, '[macos-top-panel] enable() failed, rolling back');
             this.disable();
             throw e;
         }
+    }
+
+    _panelRect() {
+        const [x, y] = Main.panel.get_transformed_position();
+        const [width, height] = Main.panel.get_transformed_size();
+        return {x, y, width, height};
+    }
+
+    _applyPanelStyle() {
+        const declarations = [];
+
+        const height = this._panelSettings.get_int('panel-height');
+        if (height > 0)
+            declarations.push(`height: ${height}px`);
+
+        const blendEnabled = this._panelSettings.get_boolean('window-color-blend-enabled');
+        if (blendEnabled && this._blendColor)
+            declarations.push(`background-color: ${this._blendColor}`);
+
+        Main.panel.style = declarations.length ? `${declarations.join('; ')};` : null;
     }
 
     _syncGlobalMenuVisibility() {
@@ -97,6 +133,16 @@ export default class MacosTopPanelExtension extends Extension {
             this._globalMenuSettings.disconnect(this._globalMenuChangedId);
             this._globalMenuChangedId = null;
         }
+
+        if (this._panelSettingsChangedId) {
+            this._panelSettings.disconnect(this._panelSettingsChangedId);
+            this._panelSettingsChangedId = null;
+        }
+
+        this._windowColorBlend?.disable();
+        this._windowColorBlend = null;
+        this._blendColor = null;
+        Main.panel.style = null;
 
         this._clockWidget?.destroy();
         this._clockWidget = null;
