@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.globalmenu" path="/org/gnome/shell/extensions/globalmenu/">
+    <key name="show-indicator" type="b">
+      <default>true</default>
+      <summary>Show Global Menu</summary>
+      <description>Master toggle for the whole global menu bar.</description>
+    </key>
+
+    <key name="menu-app-enabled" type="b"><default>true</default><summary>Show App menu</summary></key>
+    <key name="menu-file-enabled" type="b"><default>true</default><summary>Show File menu</summary></key>
+    <key name="menu-edit-enabled" type="b"><default>true</default><summary>Show Edit menu</summary></key>
+    <key name="menu-view-enabled" type="b"><default>true</default><summary>Show View menu</summary></key>
+    <key name="menu-go-enabled" type="b"><default>true</default><summary>Show Go menu</summary></key>
+    <key name="menu-window-enabled" type="b"><default>true</default><summary>Show Window menu</summary></key>
+    <key name="menu-help-enabled" type="b"><default>true</default><summary>Show Help menu</summary></key>
+
+    <key name="custom-menus" type="s">
+      <default>"[]"</default>
+      <summary>JSON list of custom menu sections</summary>
+      <description>Each entry: {label, enabled, items: [{label, kind: "command"|"shortcut", value}]}. Supports any number of independent custom top-level menus.</description>
+    </key>
+
+    <key name="desktop-app-name" type="s">
+      <default>"Nautilus"</default>
+      <summary>Name shown for the file manager / desktop placeholder in the App menu</summary>
+      <description>Used for the App menu label and File menu items (e.g. "About X", "Open X", "New X Window") when no other app is focused.</description>
+    </key>
+  </schema>
+</schemalist>
