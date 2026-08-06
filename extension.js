@@ -5,13 +5,17 @@ import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
-import {AppleMenuButton} from './lib/systemMenu.js';
-import {AppNameButton} from './lib/appNameIndicator.js';
-import {StaticMenuBar} from './lib/staticMenuBar.js';
+import {MenuManager} from './lib/menuManager.js';
+import {KiwiMenu} from './src/kiwimenu.js';
+import {QuickSettingsActionsController} from './src/hideQSbuttons.js';
+import {UserSwitcherController} from './src/userSwitcher.js';
 
 export default class MacosTopPanelExtension extends Extension {
     enable() {
         try {
+            this._kiwiSettings = this.getSettings('org.gnome.shell.extensions.kiwimenu');
+            this._globalMenuSettings = this.getSettings('org.gnome.shell.extensions.globalmenu');
+
             this._boxSnapshots = {
                 left: snapshotBox(Main.panel._leftBox),
                 center: snapshotBox(Main.panel._centerBox),
@@ -22,16 +26,20 @@ export default class MacosTopPanelExtension extends Extension {
             clearBox(Main.panel._centerBox);
             clearBox(Main.panel._rightBox);
 
-            this._appleMenu = new AppleMenuButton();
-            Main.panel.menuManager.addMenu(this._appleMenu.menu);
-            Main.panel._leftBox.add_child(this._appleMenu.container);
+            this._kiwiMenu = new KiwiMenu(this._kiwiSettings, this.path, this);
+            Main.panel.addToStatusArea('KiwiMenuButton', this._kiwiMenu, 0, 'left');
 
-            this._appNameButton = new AppNameButton();
-            Main.panel.menuManager.addMenu(this._appNameButton.menu);
-            Main.panel._leftBox.add_child(this._appNameButton.container);
+            this._userSwitcherController = new UserSwitcherController(this);
+            this._quickSettingsController = new QuickSettingsActionsController(this._kiwiSettings);
 
-            this._staticMenuBar = new StaticMenuBar();
-            Main.panel._leftBox.add_child(this._staticMenuBar);
+            this._menuManager = new MenuManager(this.uuid, this._globalMenuSettings);
+            this._globalMenuChangedId = this._globalMenuSettings.connect('changed', () => {
+                this._syncGlobalMenuVisibility();
+            });
+            global.display.connectObject('notify::focus-window', () => {
+                this._syncGlobalMenuVisibility();
+            }, this);
+            this._syncGlobalMenuVisibility();
 
             this._batteryIndicator = new BatteryIndicator();
             Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
@@ -55,12 +63,34 @@ export default class MacosTopPanelExtension extends Extension {
         }
     }
 
+    _syncGlobalMenuVisibility() {
+        if (!this._menuManager)
+            return;
+
+        if (this._globalMenuSettings.get_boolean('show-indicator')) {
+            let activeWindow = global.display.get_focus_window();
+            this._menuManager.updateMenuForWindow(activeWindow);
+        } else {
+            this._menuManager.clear();
+        }
+    }
+
     disable() {
         if (!this._boxSnapshots)
             return;
 
+        global.display.disconnectObject(this);
+
+        if (this._globalMenuChangedId) {
+            this._globalMenuSettings.disconnect(this._globalMenuChangedId);
+            this._globalMenuChangedId = null;
+        }
+
         this._clockWidget?.destroy();
         this._clockWidget = null;
+
+        // Do NOT destroy quickSettings.container — it's the real stock object,
+        // restoreBox() below puts it back where it came from.
 
         if (this._wifiIndicator?.menu)
             Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
@@ -72,24 +102,24 @@ export default class MacosTopPanelExtension extends Extension {
         this._batteryIndicator?.destroy();
         this._batteryIndicator = null;
 
-        this._staticMenuBar?.destroy();
-        this._staticMenuBar = null;
+        this._menuManager?.destroy();
+        this._menuManager = null;
 
-        if (this._appNameButton?.menu)
-            Main.panel.menuManager.removeMenu(this._appNameButton.menu);
-        this._appNameButton?.destroy();
-        this._appNameButton = null;
+        this._quickSettingsController?.destroy();
+        this._quickSettingsController = null;
 
-        if (this._appleMenu?.menu)
-            Main.panel.menuManager.removeMenu(this._appleMenu.menu);
-        this._appleMenu?.destroy();
-        this._appleMenu = null;
+        this._userSwitcherController?.destroy();
+        this._userSwitcherController = null;
 
-        // Do NOT destroy quickSettings.container — it's the real stock object,
-        // restoreBox() below puts it back where it came from.
+        this._kiwiMenu?.destroy();
+        this._kiwiMenu = null;
+
         restoreBox(Main.panel._leftBox, this._boxSnapshots.left);
         restoreBox(Main.panel._centerBox, this._boxSnapshots.center);
         restoreBox(Main.panel._rightBox, this._boxSnapshots.right);
         this._boxSnapshots = null;
+
+        this._kiwiSettings = null;
+        this._globalMenuSettings = null;
     }
 }

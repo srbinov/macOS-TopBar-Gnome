@@ -1,6 +1,9 @@
 {
     "uuid": "macos-top-panel@local.dev",
     "name": "macOS-style Top Panel",
-    "description": "Replaces the GNOME top bar with a macOS-style menu bar. Personal use only.",
-    "shell-version": ["50"]
+    "description": "Replaces the GNOME top bar with a macOS-style menu bar: Kiwi Menu's Apple-style system menu on the left, a live per-app File/Edit/View/Go/Window/Help bar next to it, plus battery, Wi-Fi, Quick Settings, and clock on the right. Personal use only.",
+    "shell-version": ["50"],
+    "gettext-domain": "kiwimenu@kemma",
+    "settings-schema": "org.gnome.shell.extensions.kiwimenu",
+    "version-name": "1.0.0"
 }
