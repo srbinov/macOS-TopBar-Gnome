@@ -6,6 +6,7 @@ import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
+import {DuplicateIndicatorsController} from './lib/duplicateIndicators.js';
 import {KiwiMenu} from './src/kiwimenu.js';
 import {QuickSettingsActionsController} from './src/hideQSbuttons.js';
 import {UserSwitcherController} from './src/userSwitcher.js';
@@ -54,6 +55,10 @@ export default class MacosTopPanelExtension extends Extension {
             quickSettings.container.show();
             Main.panel._rightBox.add_child(quickSettings.container);
 
+            // Hide the stock wifi/battery icons inside it — our own
+            // WifiIndicator/BatteryIndicator already show that info.
+            this._duplicateIndicators = new DuplicateIndicatorsController();
+
             this._clockWidget = new ClockWidget();
             Main.panel._rightBox.add_child(this._clockWidget);
         } catch (e) {
@@ -88,6 +93,9 @@ export default class MacosTopPanelExtension extends Extension {
 
         this._clockWidget?.destroy();
         this._clockWidget = null;
+
+        this._duplicateIndicators?.destroy();
+        this._duplicateIndicators = null;
 
         // Do NOT destroy quickSettings.container — it's the real stock object,
         // restoreBox() below puts it back where it came from.

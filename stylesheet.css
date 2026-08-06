@@ -1,5 +1,9 @@
 /* macOS-style top panel */
 
+#panel {
+    font-family: "SF Pro Display", sans-serif;
+}
+
 .macos-clock {
     spacing: 6px;
     padding: 0 10px;
