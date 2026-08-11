@@ -93,5 +93,10 @@
     "idx": 18,
     "title": "Framework",
     "path": "/icons/framework-icon-symbolic.svg"
+  },
+  {
+    "idx": 19,
+    "title": "peachOS",
+    "path": "/icons/peach-icon-symbolic.svg"
   }
 ]
