@@ -156,3 +156,75 @@
   border: 1px solid;
   border-color: lightgray;
 }
+
+/*###############################################*/
+/*             Control Center Styles              */
+/*###############################################*/
+.macos-control-center-menu {
+  width: 360px;
+  padding: 14px;
+}
+
+.macos-control-center-row {
+  spacing: 10px;
+}
+
+.macos-control-center-column {
+  spacing: 10px;
+}
+
+.macos-control-center-pill {
+  border-radius: 999px;
+  padding: 10px 14px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.macos-control-center-pill:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.macos-control-center-pill.on {
+  background-color: rgba(10, 132, 255, 0.35);
+}
+
+.macos-control-center-pill-icon-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.macos-control-center-pill-icon-badge StIcon {
+  icon-size: 16px;
+  color: #222222;
+}
+
+.macos-control-center-pill-title {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.macos-control-center-pill-subtitle {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.macos-control-center-circle-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.macos-control-center-circle-button StIcon {
+  icon-size: 22px;
+}
+
+.macos-control-center-circle-button:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.macos-control-center-circle-button.on {
+  background-color: rgb(10, 132, 255);
+  color: white;
+}
