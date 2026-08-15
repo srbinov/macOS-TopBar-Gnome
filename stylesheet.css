@@ -235,3 +235,7 @@
   background-color: rgb(10, 132, 255);
   color: white;
 }
+
+.macos-control-center-focus-pill.on {
+  background-color: rgba(94, 92, 230, 0.5);
+}
