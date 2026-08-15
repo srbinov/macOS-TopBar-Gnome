@@ -7,7 +7,7 @@ import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
-import {ControlCenterIconController} from './lib/controlCenterIcon.js';
+import {ControlCenterIndicator} from './lib/controlCenterIndicator.js';
 import {WindowColorBlend} from './lib/windowColorBlend.js';
 import {KiwiMenu} from './src/kiwimenu.js';
 import {QuickSettingsActionsController} from './src/hideQSbuttons.js';
@@ -57,15 +57,9 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel.menuManager.addMenu(this._soundIndicator.menu);
             Main.panel._rightBox.add_child(this._soundIndicator.container);
 
-            // Control Center: reuse the real stock Quick Settings button, just relocated.
-            const quickSettings = Main.panel.statusArea.quickSettings;
-            quickSettings.container.show();
-            Main.panel._rightBox.add_child(quickSettings.container);
-
-            // Replace the stock wifi/battery/etc. icons on its face with a
-            // single macOS-style Control Center icon — our own indicators
-            // already show battery/wifi/sound.
-            this._controlCenterIcon = new ControlCenterIconController(this.path);
+            this._controlCenter = new ControlCenterIndicator(this.path);
+            Main.panel.menuManager.addMenu(this._controlCenter.menu);
+            Main.panel._rightBox.add_child(this._controlCenter.container);
 
             this._clockWidget = new ClockWidget(this._panelSettings);
             Main.panel._rightBox.add_child(this._clockWidget);
@@ -147,11 +141,10 @@ export default class MacosTopPanelExtension extends Extension {
         this._clockWidget?.destroy();
         this._clockWidget = null;
 
-        this._controlCenterIcon?.destroy();
-        this._controlCenterIcon = null;
-
-        // Do NOT destroy quickSettings.container — it's the real stock object,
-        // restoreBox() below puts it back where it came from.
+        if (this._controlCenter?.menu)
+            Main.panel.menuManager.removeMenu(this._controlCenter.menu);
+        this._controlCenter?.destroy();
+        this._controlCenter = null;
 
         if (this._soundIndicator?.menu)
             Main.panel.menuManager.removeMenu(this._soundIndicator.menu);
