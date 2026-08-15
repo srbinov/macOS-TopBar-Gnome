@@ -232,3 +232,10 @@
 .macos-control-center-focus-pill.on {
   background-color: rgba(94, 92, 230, 0.5);
 }
+
+.macos-control-center-display-card {
+  border-radius: 20px;
+  padding: 12px 16px;
+  spacing: 8px;
+  background-color: rgba(10, 132, 255, 0.25);
+}
