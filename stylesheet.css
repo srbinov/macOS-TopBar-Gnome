@@ -26,6 +26,13 @@
   margin-right: 6px;
 }
 
+/* The panel-button-label's line box sits visually above the icon's
+   vertical center (font ascent/descent isn't symmetric), so nudge it
+   down a couple pixels to line up with the app icon next to it. */
+.kiwi-global-menu-label {
+  margin-top: 2px;
+}
+
 .menu-button,
 .menu-button > StIcon {
   icon-shadow: 0 1px 3px 3px rgba(0, 0, 0, 0.15);
