@@ -4,6 +4,27 @@
     font-family: "SF Pro Display", sans-serif;
 }
 
+/* Contrast chrome when the bar is transparent over wallpaper (or blended). */
+#panel.macos-panel-fg-black,
+#panel.macos-panel-fg-black .panel-button,
+#panel.macos-panel-fg-black .panel-button StLabel,
+#panel.macos-panel-fg-black .system-status-icon,
+#panel.macos-panel-fg-black .kiwi-global-menu-label,
+#panel.macos-panel-fg-black .macos-clock-date,
+#panel.macos-panel-fg-black .macos-clock-time {
+    color: black;
+}
+
+#panel.macos-panel-fg-white,
+#panel.macos-panel-fg-white .panel-button,
+#panel.macos-panel-fg-white .panel-button StLabel,
+#panel.macos-panel-fg-white .system-status-icon,
+#panel.macos-panel-fg-white .kiwi-global-menu-label,
+#panel.macos-panel-fg-white .macos-clock-date,
+#panel.macos-panel-fg-white .macos-clock-time {
+    color: white;
+}
+
 .macos-clock {
     spacing: 6px;
     padding: 0 10px;
@@ -167,11 +188,43 @@
 /*###############################################*/
 /*             Control Center Styles              */
 /*###############################################*/
+/*
+ * Theme (Yaru/Adwaita) paints an opaque plate on .popup-menu-content.
+ * Styling only .macos-control-center-menu (the BoxPointer) never clears it —
+ * override the content node explicitly so blur + tile translucency can show.
+ */
 .macos-control-center-menu {
   width: 360px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.macos-control-center-menu .popup-menu-content,
+.macos-control-center-content {
   padding: 14px;
-  background-color: rgba(20, 20, 24, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: transparent;
+  border-radius: 20px;
+  border: none;
+  box-shadow: none;
+}
+
+/* Wrapper PopupBaseMenuItem must stay invisible (no hover wash). */
+.macos-control-center-menu .popup-menu-item {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+.macos-control-center-menu .popup-menu-item:hover,
+.macos-control-center-menu .popup-menu-item:selected,
+.macos-control-center-menu .popup-menu-item:checked,
+.macos-control-center-menu .popup-menu-item:active,
+.macos-control-center-menu .popup-menu-item:focus {
+  background-color: transparent;
+  color: inherit;
 }
 
 .macos-control-center-row {
@@ -182,99 +235,134 @@
   spacing: 10px;
 }
 
+/*
+ * Liquid-glass recipe (CSS approximation of the macOS Control Center look):
+ * translucent fill + vertical highlight gradient + brighter rim + soft
+ * inset top edge. No Shell.BlurEffect on the popup shell (that crashes
+ * Clutter after screenshot UI); wallpaper already shows through.
+ */
+.macos-control-center-pill,
+.macos-control-center-circle-button,
+.macos-control-center-media-card,
+.macos-control-center-slider-card {
+  background-color: rgba(255, 255, 255, 0.12);
+  background-gradient-direction: vertical;
+  background-gradient-start: rgba(255, 255, 255, 0.28);
+  background-gradient-end: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  /* Keep shadows simple — multi-layer inset shadows have been associated
+     with Clutter paint/clip instability on some Mutter builds. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
 .macos-control-center-pill {
   border-radius: 999px;
   padding: 10px 14px;
-  background-color: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.macos-control-center-pill:hover {
-  background-color: rgba(255, 255, 255, 0.26);
+.macos-control-center-pill:hover,
+.macos-control-center-circle-button:hover {
+  background-color: rgba(255, 255, 255, 0.16);
+  background-gradient-start: rgba(255, 255, 255, 0.36);
+  background-gradient-end: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.55);
 }
 
-.macos-control-center-pill.on {
-  background-color: rgba(10, 132, 255, 0.45);
+.macos-control-center-pill.on,
+.macos-control-center-circle-button.on {
+  background-color: rgba(255, 255, 255, 0.22);
+  background-gradient-start: rgba(255, 255, 255, 0.42);
+  background-gradient-end: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.58);
 }
 
 .macos-control-center-pill-icon-badge {
   width: 30px;
   height: 30px;
   border-radius: 999px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .macos-control-center-pill-icon-badge StIcon {
   icon-size: 16px;
-  color: #222222;
+  /* Follow the accent color from Settings → Appearance. */
+  color: -st-accent-color;
 }
 
 .macos-control-center-pill-title {
   font-weight: bold;
   font-size: 1em;
+  color: white;
 }
 
 .macos-control-center-pill-subtitle {
   font-size: 0.85em;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .macos-control-center-circle-button {
   width: 64px;
   height: 64px;
   border-radius: 999px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .macos-control-center-circle-button StIcon {
-  icon-size: 22px;
-}
-
-.macos-control-center-circle-button:hover {
-  background-color: rgba(255, 255, 255, 0.28);
-}
-
-.macos-control-center-circle-button.on {
-  background-color: rgb(10, 132, 255);
-  color: white;
-}
-
-.macos-control-center-focus-pill.on {
-  background-color: rgba(94, 92, 230, 0.55);
+  icon-size: 36px;
 }
 
 .macos-control-center-slider-card {
-  border-radius: 20px;
+  border-radius: 22px;
   padding: 12px 16px;
   spacing: 8px;
-  background-color: rgba(10, 132, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* Slightly denser / more “sunken” than the upper tiles. */
+  background-color: rgba(255, 255, 255, 0.1);
+  background-gradient-start: rgba(255, 255, 255, 0.22);
+  background-gradient-end: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.macos-control-center-slider-card .macos-control-center-pill-title {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.macos-control-center-slider-card StIcon {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .macos-control-center-media-card {
-  border-radius: 18px;
+  border-radius: 22px;
   padding: 12px;
   spacing: 6px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .macos-control-center-media-art {
   width: 72px;
   height: 72px;
   border-radius: 14px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.14);
+  background-gradient-direction: vertical;
+  background-gradient-start: rgba(255, 255, 255, 0.22);
+  background-gradient-end: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.macos-control-center-media-art StIcon {
+  width: 72px;
+  height: 72px;
+  icon-size: 72px;
 }
 
 .macos-control-center-media-title {
   font-weight: bold;
   font-size: 0.95em;
+  color: rgba(255, 255, 255, 0.98);
 }
 
 .macos-control-center-media-artist {
   font-size: 0.8em;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .macos-control-center-media-transport {
@@ -286,8 +374,13 @@
   height: 30px;
   border-radius: 999px;
   background-color: transparent;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .macos-control-center-transport-button:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.14);
+  background-gradient-direction: vertical;
+  background-gradient-start: rgba(255, 255, 255, 0.22);
+  background-gradient-end: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }

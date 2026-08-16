@@ -65,11 +65,14 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel._rightBox.add_child(this._clockWidget);
 
             this._blendColor = null;
+            this._panelForeground = 'white';
             this._windowColorBlend = new WindowColorBlend(
                 () => this._panelRect(),
-                color => {
-                    this._blendColor = color;
+                ({blendColor, foreground}) => {
+                    this._blendColor = blendColor;
+                    this._panelForeground = foreground;
                     this._applyPanelStyle();
+                    this._applyPanelForeground(foreground);
                 });
             this._windowColorBlend.enable();
 
@@ -78,6 +81,7 @@ export default class MacosTopPanelExtension extends Extension {
                     this._applyPanelStyle();
             });
             this._applyPanelStyle();
+            this._applyPanelForeground(this._panelForeground);
         } catch (e) {
             logError(e, '[macos-top-panel] enable() failed, rolling back');
             this.disable();
@@ -102,7 +106,30 @@ export default class MacosTopPanelExtension extends Extension {
         if (blendEnabled && this._blendColor)
             declarations.push(`background-color: ${this._blendColor}`);
 
+        const fg = this._panelForeground === 'black' ? 'black' : 'white';
+        declarations.push(`color: ${fg}`);
+
         Main.panel.style = declarations.length ? `${declarations.join('; ')};` : null;
+
+        Main.panel.remove_style_class_name('macos-panel-fg-black');
+        Main.panel.remove_style_class_name('macos-panel-fg-white');
+        Main.panel.add_style_class_name(
+            this._panelForeground === 'black' ? 'macos-panel-fg-black' : 'macos-panel-fg-white');
+    }
+
+    /**
+     * Push contrast color into widgets that don’t inherit panel `color`
+     * (PNG face icons, explicit clock styles, kiwi SVG gicons).
+     * @param {'black'|'white'} foreground
+     */
+    _applyPanelForeground(foreground) {
+        this._kiwiMenu?.setForeground?.(foreground);
+        this._batteryIndicator?.setForeground?.(foreground);
+        this._controlCenter?.setForeground?.(foreground);
+        this._clockWidget?.setForeground?.(foreground);
+        this._wifiIndicator?.setForeground?.(foreground);
+        this._soundIndicator?.setForeground?.(foreground);
+        this._userSwitcherController?.setForeground?.(foreground);
     }
 
     _syncGlobalMenuVisibility() {
@@ -136,6 +163,9 @@ export default class MacosTopPanelExtension extends Extension {
         this._windowColorBlend?.disable();
         this._windowColorBlend = null;
         this._blendColor = null;
+        this._panelForeground = null;
+        Main.panel.remove_style_class_name('macos-panel-fg-black');
+        Main.panel.remove_style_class_name('macos-panel-fg-white');
         Main.panel.style = null;
 
         this._clockWidget?.destroy();

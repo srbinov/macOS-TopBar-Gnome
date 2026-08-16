@@ -84,6 +84,13 @@ export class UserSwitcherController {
     this._extension = null;
   }
 
+  /**
+   * @param {'black'|'white'} foreground
+   */
+  setForeground(foreground) {
+    this._userSwitcher?.setForeground?.(foreground);
+  }
+
   _initUserManager() {
     this._userManager = AccountsService.UserManager.get_default();
 
@@ -150,6 +157,7 @@ export const UserSwitcherButton = GObject.registerClass(
         style_class: 'kiwi-user-switcher-button',
       });
       this.add_child(this._buttonIcon);
+      this._foreground = 'white';
 
       if (this.menu?.actor) {
         this.menu.actor.add_style_class_name('kiwi-user-switcher-menu');
@@ -190,6 +198,17 @@ export const UserSwitcherButton = GObject.registerClass(
       this._extension = null;
 
       super.destroy();
+    }
+
+    /**
+     * @param {'black'|'white'} foreground
+     */
+    setForeground(foreground) {
+      if (foreground !== 'black' && foreground !== 'white')
+        return;
+      this._foreground = foreground;
+      if (this._buttonIcon)
+        this._buttonIcon.style = `color: ${foreground};`;
     }
 
     _initUserManager() {

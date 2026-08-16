@@ -29,6 +29,21 @@ function assertEqual(actual, expected, msg) {
     assertEqual(result.artist, null, 'extractMetadata: empty artist array is null, not undefined');
 }
 
+{
+    const result = extractMetadata({
+        'xesam:title': 'Solo',
+        'xesam:artist': 'Single Artist String',
+    });
+    assertEqual(result.artist, 'Single Artist String',
+        'extractMetadata: some players publish artist as a plain string');
+}
+
+{
+    const result = extractMetadata({'xesam:title': 42, 'mpris:artUrl': 7});
+    assertEqual(result.title, '42', 'extractMetadata: coerces non-string title');
+    assertEqual(result.artUrl, '7', 'extractMetadata: coerces non-string artUrl');
+}
+
 // parseMediaState: idle
 {
     const result = parseMediaState({

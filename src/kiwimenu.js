@@ -82,6 +82,7 @@ export const KiwiMenu = GObject.registerClass(
         style_class: 'menu-button',
       });
       this.add_child(this._icon);
+      this._foreground = 'white';
 
       this._settingsSignalIds.push(
         this._settings.connect('changed::icon', () => this._setIcon())
@@ -215,6 +216,26 @@ export const KiwiMenu = GObject.registerClass(
       const iconPath = `${this._extensionPath}${iconInfo.path}`;
 
       this._icon.gicon = Gio.icon_new_for_string(iconPath);
+      this._applyForegroundToIcon();
+    }
+
+    /**
+     * @param {'black'|'white'} foreground
+     */
+    setForeground(foreground) {
+      if (foreground !== 'black' && foreground !== 'white')
+        return;
+      if (this._foreground === foreground)
+        return;
+      this._foreground = foreground;
+      this._applyForegroundToIcon();
+    }
+
+    _applyForegroundToIcon() {
+      if (!this._icon)
+        return;
+      // Symbolic SVG file icons recolor via CSS color on the St.Icon.
+      this._icon.style = `color: ${this._foreground};`;
     }
 
     _syncActivitiesVisibility() {
