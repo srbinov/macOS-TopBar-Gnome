@@ -5,6 +5,8 @@ import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
+import {SearchIndicator} from './lib/searchIndicator.js';
+import {installDashFilter, uninstallDashFilter} from './lib/dashFilter.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
 import {ControlCenterIndicator} from './lib/controlCenterIndicator.js';
@@ -52,6 +54,10 @@ export default class MacosTopPanelExtension extends Extension {
             this._wifiIndicator = new WifiIndicator();
             Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
             Main.panel._rightBox.add_child(this._wifiIndicator.container);
+
+            this._searchIndicator = new SearchIndicator();
+            Main.panel._rightBox.add_child(this._searchIndicator.container);
+            installDashFilter();
 
             this._soundIndicator = new SoundIndicator();
             Main.panel.menuManager.addMenu(this._soundIndicator.menu);
@@ -128,6 +134,7 @@ export default class MacosTopPanelExtension extends Extension {
         this._controlCenter?.setForeground?.(foreground);
         this._clockWidget?.setForeground?.(foreground);
         this._wifiIndicator?.setForeground?.(foreground);
+        this._searchIndicator?.setForeground?.(foreground);
         this._soundIndicator?.setForeground?.(foreground);
         this._userSwitcherController?.setForeground?.(foreground);
     }
@@ -180,6 +187,11 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel.menuManager.removeMenu(this._soundIndicator.menu);
         this._soundIndicator?.destroy();
         this._soundIndicator = null;
+
+        // dontCreateMenu=true, so there's no this._searchIndicator.menu to remove.
+        this._searchIndicator?.destroy();
+        this._searchIndicator = null;
+        uninstallDashFilter();
 
         if (this._wifiIndicator?.menu)
             Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
