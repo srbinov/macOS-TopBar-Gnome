@@ -30,18 +30,57 @@
     padding: 0 10px;
 }
 
-.macos-clock-date,
-.macos-clock-time {
-    font-size: 13px;
+/* Deliberately no font-size rule here: clockWidget.js's labels carry panel-button-label (the
+   same class the per-app global menu labels use) and no inline font-size override, so they
+   inherit the exact same resolved size as "File"/"Edit"/"View"/etc by construction. A fixed
+   em-based rule here would just reintroduce a second, competing sizing path. */
+
+/* Inter-icon spacing. 5px/side -> 2.5px -> 1.25px -> 0.3125px -> now cut by 60% to
+   0.125px/side (margin 0.05px + padding 0.075px), per explicit request. Note: sub-pixel
+   CSS lengths below ~1px are well past where Clutter's renderer can draw a visible
+   difference -- St/Clutter rounds fractional pixel values to whole device pixels at paint
+   time, so this and the previous cut are very likely visually identical (effectively
+   touching) on screen even though the numbers keep shrinking. Icon *size* is untouched here
+   (still the stock 1.091em, inherited normally; the battery icon's own larger size is set
+   separately below), only the gap between them shrinks. !important because a previous
+   attempt at just matching the stock rule's selector specificity produced no visible change
+   at all -- rather than keep guessing at what's actually out-specificity-ing it, this
+   removes that axis of doubt entirely. */
+#panel .panel-button .system-status-icon,
+.system-status-icon {
+    margin: 0 0.05px !important;
+    padding: 0 0.075px !important;
+}
+
+/* Battery icon: same square-canvas asset as before (icons/panel/battery-*.png, widened +
+   padded so a forced-square icon-size render doesn't distort it), but rendered noticeably
+   bigger than the other system-status icons -- at the stock 1.091em it read as a tiny
+   horizontal dash. Scaling the whole square up scales the letterboxed art inside it
+   proportionally, so it grows both taller and wider together rather than needing separate
+   width/height overrides. */
+.macos-battery-icon {
+    icon-size: 1.8em;
+}
+
+/* No font-size/weight here on purpose, same reasoning as the clock (see clockWidget.js):
+   panel-button-label already gives this the exact size/weight every other panel label uses,
+   so a fixed rule here would just reintroduce a second, competing sizing path. Just a small
+   gap from the icon. */
+.macos-battery-label {
+    margin-left: 2px;
 }
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later
  * stylesheet.css - Defines the styles for the Kiwi Menu extension.
  */
 
+/* icon-size: 1.091em matches stock GNOME Shell's own #panel .system-status-icon exactly
+   (extracted from gnome-shell-theme.gresource) -- this used to be a fixed 16px/16px, which
+   is why it didn't track the rest of the panel (which uses this same em-based convention,
+   inherited from the panel's own font-size -- itself derived from text-scaling-factor) when
+   the user changed Settings' Text Scaling slider. */
 .menu-button {
-  width: 16px;
-  height: 16px;
+  icon-size: 1.091em;
   margin: 1px;
   margin-left: 6px;
   margin-right: 6px;

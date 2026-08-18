@@ -1,3 +1,6 @@
+import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
+
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
@@ -5,6 +8,7 @@ import {snapshotBox, clearBox, restoreBox} from './lib/panelState.js';
 import {ClockWidget} from './lib/clockWidget.js';
 import {BatteryIndicator} from './lib/batteryIndicator.js';
 import {WifiIndicator} from './lib/wifiIndicator.js';
+import {BluetoothIndicator} from './lib/bluetoothIndicator.js';
 import {SearchIndicator} from './lib/searchIndicator.js';
 import {installDashFilter, uninstallDashFilter} from './lib/dashFilter.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
@@ -32,6 +36,14 @@ export default class MacosTopPanelExtension extends Extension {
             clearBox(Main.panel._centerBox);
             clearBox(Main.panel._rightBox);
 
+            // St.BoxLayout's own "spacing" property adds a gap between every direct child,
+            // independent of and in addition to each icon's own CSS margin/padding -- a CSS
+            // rule on .system-status-icon alone can't touch this, since it's a property of
+            // the *box*, not the icons in it. Zeroed out so the icon-level margin/padding
+            // (see stylesheet.css) is the one and only thing controlling the visible gap.
+            this._rightBoxOriginalSpacing = Main.panel._rightBox.spacing;
+            Main.panel._rightBox.spacing = 0;
+
             this._kiwiMenu = new KiwiMenu(this._kiwiSettings, this.path, this);
             Main.panel.addToStatusArea('KiwiMenuButton', this._kiwiMenu, 0, 'left');
 
@@ -47,13 +59,17 @@ export default class MacosTopPanelExtension extends Extension {
             }, this);
             this._syncGlobalMenuVisibility();
 
-            this._batteryIndicator = new BatteryIndicator(this.path);
+            this._batteryIndicator = new BatteryIndicator(this.path, this._panelSettings);
             Main.panel.menuManager.addMenu(this._batteryIndicator.menu);
             Main.panel._rightBox.add_child(this._batteryIndicator.container);
 
             this._wifiIndicator = new WifiIndicator();
             Main.panel.menuManager.addMenu(this._wifiIndicator.menu);
             Main.panel._rightBox.add_child(this._wifiIndicator.container);
+
+            this._bluetoothIndicator = new BluetoothIndicator();
+            Main.panel.menuManager.addMenu(this._bluetoothIndicator.menu);
+            Main.panel._rightBox.add_child(this._bluetoothIndicator.container);
 
             this._searchIndicator = new SearchIndicator();
             Main.panel._rightBox.add_child(this._searchIndicator.container);
@@ -85,9 +101,46 @@ export default class MacosTopPanelExtension extends Extension {
             this._panelSettingsChangedId = this._panelSettings.connect('changed', (_settings, key) => {
                 if (key === 'panel-height' || key === 'window-color-blend-enabled')
                     this._applyPanelStyle();
+                else if (key.startsWith('show-') && key.endsWith('-icon'))
+                    this._applyIconVisibility();
             });
             this._applyPanelStyle();
             this._applyPanelForeground(this._panelForeground);
+            this._applyIconVisibility();
+
+            // Auto-hide in full screen: driven entirely by our own code (not relying on
+            // whatever Mutter/Shell might otherwise do to Main.panel in full screen), so
+            // "never hide" is just as deterministic as "hide" -- both states are actively
+            // asserted on every fullscreen change, not just the hiding one.
+            //
+            // Isolated in its own try/catch, unlike everything above: this is the newest,
+            // least field-tested piece (Main.layoutManager.primaryMonitor.inFullscreen isn't
+            // exercised by anything else in this file), and a failure here shouldn't be able
+            // to roll back the whole panel replacement the way a single unrelated bug already
+            // did once (see the search/wifi/bluetooth icon-visibility fix above).
+            try {
+                this._panelHidden = false;
+                this._fullscreenChangedId = global.display.connect('in-fullscreen-changed', () => {
+                    this._applyFullscreenState();
+                });
+                // Belt-and-suspenders alongside the signal above: it didn't reliably trigger
+                // the slide in testing (window-color-blend's own, separate window-touching-panel
+                // detection *did* still visibly react to the full-screen window, which is what
+                // made "the bar doesn't slide, colors just change" so confusing -- two unrelated
+                // features, only one of them actually firing). This just re-checks the same
+                // cheap boolean property every second; _applyFullscreenState() already no-ops
+                // when nothing changed, so this costs nothing extra when idle. Not remotely the
+                // same risk as the earlier wl-paste polling incident -- that spawned a new
+                // process/Wayland connection every tick, this reads one in-memory property,
+                // the same cost class as the clock's own existing 1s timer.
+                this._fullscreenPollId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, () => {
+                    this._applyFullscreenState();
+                    return GLib.SOURCE_CONTINUE;
+                });
+                this._applyFullscreenState();
+            } catch (e) {
+                logError(e, '[macos-top-panel] full screen auto-hide setup failed, leaving the panel always shown');
+            }
         } catch (e) {
             logError(e, '[macos-top-panel] enable() failed, rolling back');
             this.disable();
@@ -134,9 +187,67 @@ export default class MacosTopPanelExtension extends Extension {
         this._controlCenter?.setForeground?.(foreground);
         this._clockWidget?.setForeground?.(foreground);
         this._wifiIndicator?.setForeground?.(foreground);
+        this._bluetoothIndicator?.setForeground?.(foreground);
         this._searchIndicator?.setForeground?.(foreground);
         this._soundIndicator?.setForeground?.(foreground);
         this._userSwitcherController?.setForeground?.(foreground);
+    }
+
+    _applyIconVisibility() {
+        // .show()/.hide() called directly on each indicator, not via ".container" -- that
+        // broke with "this._searchIndicator.container.set_visible is not a function" for the
+        // dontCreateMenu=true SearchIndicator specifically (PanelMenu.Button's container
+        // apparently isn't a plain actor in that case), and since it threw partway through
+        // enable(), the whole extension rolled back (including dashFilter.js's fix), which is
+        // also why the dock icon came back. The indicators themselves are actors (they extend
+        // PanelMenu.Button -> St.Widget), so show()/hide() work directly and uniformly
+        // regardless of whether a menu exists -- same pattern BatteryIndicator already used.
+        if (this._panelSettings.get_boolean('show-spotlight-icon'))
+            this._searchIndicator?.show();
+        else
+            this._searchIndicator?.hide();
+
+        if (this._panelSettings.get_boolean('show-wifi-icon'))
+            this._wifiIndicator?.show();
+        else
+            this._wifiIndicator?.hide();
+
+        if (this._panelSettings.get_boolean('show-bluetooth-icon'))
+            this._bluetoothIndicator?.show();
+        else
+            this._bluetoothIndicator?.hide();
+
+        // BatteryIndicator manages its own visibility (it already needed to, for the "no real
+        // battery on this machine" case) -- it listens for show-battery-icon itself instead of
+        // being toggled from here, so a battery property change firing _update() later can't
+        // silently override the user's preference by calling its own this.show() again.
+    }
+
+    /**
+     * Slide the panel off/on screen for full-screen auto-hide. Pure visual transform (not a
+     * work-area/strut change) -- a full-screen window already covers this area regardless, so
+     * this is about the panel not visibly floating on top of it, not about reclaiming layout
+     * space for other windows.
+     */
+    _applyFullscreenState() {
+        const autoHide = this._panelSettings.get_boolean('auto-hide-in-fullscreen');
+        const isFullscreen = Main.layoutManager.primaryMonitor?.inFullscreen ?? false;
+        const shouldHide = autoHide && isFullscreen;
+
+        if (shouldHide === this._panelHidden)
+            return;
+        this._panelHidden = shouldHide;
+
+        // Main.panel.height is Clutter's fixed-size override property, not necessarily the
+        // panel's actual rendered height (it's usually unset, sized by theme/CSS instead) --
+        // reuse _panelRect()'s get_transformed_size(), the same real-size source the
+        // color-blend sampling already relies on, rather than trust that property directly.
+        const height = this._panelRect().height || 32;
+        Main.panel.ease({
+            translation_y: shouldHide ? -height : 0,
+            duration: 220,
+            mode: Clutter.AnimationMode.EASE_OUT_QUAD,
+        });
     }
 
     _syncGlobalMenuVisibility() {
@@ -166,6 +277,18 @@ export default class MacosTopPanelExtension extends Extension {
             this._panelSettings.disconnect(this._panelSettingsChangedId);
             this._panelSettingsChangedId = null;
         }
+
+        if (this._fullscreenChangedId) {
+            global.display.disconnect(this._fullscreenChangedId);
+            this._fullscreenChangedId = null;
+        }
+        if (this._fullscreenPollId) {
+            GLib.source_remove(this._fullscreenPollId);
+            this._fullscreenPollId = null;
+        }
+        Main.panel.remove_all_transitions();
+        Main.panel.translation_y = 0;
+        this._panelHidden = false;
 
         this._windowColorBlend?.disable();
         this._windowColorBlend = null;
@@ -198,6 +321,11 @@ export default class MacosTopPanelExtension extends Extension {
         this._wifiIndicator?.destroy();
         this._wifiIndicator = null;
 
+        if (this._bluetoothIndicator?.menu)
+            Main.panel.menuManager.removeMenu(this._bluetoothIndicator.menu);
+        this._bluetoothIndicator?.destroy();
+        this._bluetoothIndicator = null;
+
         if (this._batteryIndicator?.menu)
             Main.panel.menuManager.removeMenu(this._batteryIndicator.menu);
         this._batteryIndicator?.destroy();
@@ -219,6 +347,11 @@ export default class MacosTopPanelExtension extends Extension {
         restoreBox(Main.panel._centerBox, this._boxSnapshots.center);
         restoreBox(Main.panel._rightBox, this._boxSnapshots.right);
         this._boxSnapshots = null;
+
+        if (this._rightBoxOriginalSpacing !== undefined) {
+            Main.panel._rightBox.spacing = this._rightBoxOriginalSpacing;
+            this._rightBoxOriginalSpacing = undefined;
+        }
 
         this._kiwiSettings = null;
         this._globalMenuSettings = null;

@@ -23,5 +23,42 @@
             <summary>Match touching window color</summary>
             <description>When a window's edge touches the top of the screen, the panel background samples and matches its color there instead of using the default background.</description>
         </key>
+        <key type="b" name="auto-hide-in-fullscreen">
+            <default>false</default>
+            <summary>Auto-hide the menu bar in full screen</summary>
+            <description>When true, the panel slides up out of view while any window on the primary monitor is full screen, and slides back down once nothing is. When false, the panel always stays shown regardless of full screen state.</description>
+        </key>
+        <key type="b" name="show-spotlight-icon">
+            <default>true</default>
+            <summary>Show the peachySearch icon</summary>
+        </key>
+        <key type="b" name="show-wifi-icon">
+            <default>true</default>
+            <summary>Show the Wi-Fi icon</summary>
+        </key>
+        <key type="b" name="show-bluetooth-icon">
+            <default>false</default>
+            <summary>Show the Bluetooth icon</summary>
+        </key>
+        <key type="b" name="show-battery-icon">
+            <default>true</default>
+            <summary>Show the Battery icon</summary>
+        </key>
+        <key type="b" name="clock-show-date">
+            <default>true</default>
+            <summary>Show the date next to the clock</summary>
+        </key>
+        <key type="b" name="clock-24-hour">
+            <default>false</default>
+            <summary>Use a 24-hour clock</summary>
+        </key>
+        <key type="b" name="clock-show-seconds">
+            <default>false</default>
+            <summary>Show seconds in the clock</summary>
+        </key>
+        <key type="b" name="battery-show-percentage">
+            <default>true</default>
+            <summary>Show the battery percentage next to its icon</summary>
+        </key>
     </schema>
 </schemalist>
