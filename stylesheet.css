@@ -4,6 +4,23 @@
     font-family: "SF Pro Display", sans-serif;
 }
 
+/* Liquid glass rim + top inset highlight (see docs/liquid-glass-style.md, "Shared glass
+   recipe") -- but *not* the recipe's own fill or gradient. This class is only added by
+   extension.js while a window is actually touching the bar and window-color-blend is
+   supplying a (translucent, see windowColorBlend.js) tint via Main.panel's own inline
+   background-color; with nothing touching, #panel keeps the stock theme's plain
+   `background-color: transparent` untouched, no rim, no fill at all. Earlier attempt made
+   this the panel's permanent resting look (always-on fill + gradient); the gradient's
+   top-to-bottom alpha sweep in particular (0.28 -> 0.08, meant for a small square tile) read
+   as a stray pale band across the bottom of a thin 40px full-width bar rather than glass
+   depth, and even flattened to one alpha it was still winning against the intent of a
+   genuinely transparent idle bar -- so the fill/gradient are dropped entirely here, only the
+   rim and highlight are shared with the Control Center's glass. */
+.macos-panel-glass {
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
 /* Contrast chrome when the bar is transparent over wallpaper (or blended). */
 #panel.macos-panel-fg-black,
 #panel.macos-panel-fg-black .panel-button,
@@ -28,6 +45,14 @@
 .macos-clock {
     spacing: 6px;
     padding: 0 10px;
+    border-radius: 6px;
+}
+
+/* Click affordance -- the clock now opens the Notification Center (see
+   lib/notificationCenter.js), same subtle hover wash every other reactive panel-button
+   already gets. */
+.macos-clock:hover {
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 /* Deliberately no font-size rule here: clockWidget.js's labels carry panel-button-label (the
@@ -50,6 +75,49 @@
 .system-status-icon {
     margin: 0 0.05px !important;
     padding: 0 0.075px !important;
+}
+
+/* Notification banner: 20% smaller than the theme's own .notification-banner (34em wide,
+   64px min-height -- see the MacTahoe theme's own gnome-shell.css), and the same liquid
+   glass recipe as the Control Center (docs/liquid-glass-style.md, "Shared glass recipe"),
+   copied as-is including the gradient sweep -- unlike the top panel (a thin, full-width bar,
+   where that same sweep read as a stray pale seam, see .macos-panel-glass above), a
+   notification banner is a small bounded card much closer in proportions to the Control
+   Center's own tiles, so the gradient reads as intended depth here rather than exposing
+   whatever's behind it. !important throughout for the same reason as the icon spacing rule
+   above: same selector specificity as the theme's own rule (which also sets its own
+   background-color/border/box-shadow -- see gnome-shell.css), so load order alone would
+   decide the winner without it. Text stays the theme's own near-white #dedede, already a
+   match for the doc's "primary title: white / 0.95-0.98 alpha" typography guidance. */
+.notification-banner {
+    width: 27.2em !important;
+    min-height: 51px !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    background-gradient-direction: vertical !important;
+    background-gradient-start: rgba(255, 255, 255, 0.28) !important;
+    background-gradient-end: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.42) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Notification Center (lib/notificationCenter.js): same liquid glass recipe again, gradient
+   sweep included -- this is a tall floating card (like the Control Center's own popup), not
+   a thin bar, so the sweep reads as depth rather than exposing what's behind it. The
+   .message-list/.message-notification-group/.message classes nested inside (all from
+   GNOME's own Calendar.CalendarMessageList/messageList.js) are left completely untouched:
+   .message-list itself has no background of its own in the theme, so the glass shows
+   through it cleanly, and the individual notification cards' existing darker
+   :second-in-stack/:lower-in-stack shading already reads as a stack of cards sitting on top
+   of the glass -- exactly the look being reproduced here, no need to restyle it. */
+.macos-notification-center {
+    border-radius: 20px;
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.12);
+    background-gradient-direction: vertical;
+    background-gradient-start: rgba(255, 255, 255, 0.28);
+    background-gradient-end: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* Battery icon: same square-canvas asset as before (icons/panel/battery-*.png, widened +

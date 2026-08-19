@@ -11,6 +11,8 @@ import {WifiIndicator} from './lib/wifiIndicator.js';
 import {BluetoothIndicator} from './lib/bluetoothIndicator.js';
 import {SearchIndicator} from './lib/searchIndicator.js';
 import {installDashFilter, uninstallDashFilter} from './lib/dashFilter.js';
+import {installNotificationSlide, uninstallNotificationSlide} from './lib/notificationTray.js';
+import {NotificationCenterPanel} from './lib/notificationCenter.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
 import {ControlCenterIndicator} from './lib/controlCenterIndicator.js';
@@ -75,6 +77,8 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel._rightBox.add_child(this._searchIndicator.container);
             installDashFilter();
 
+            installNotificationSlide(Main.messageTray);
+
             this._soundIndicator = new SoundIndicator();
             Main.panel.menuManager.addMenu(this._soundIndicator.menu);
             Main.panel._rightBox.add_child(this._soundIndicator.container);
@@ -83,7 +87,8 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel.menuManager.addMenu(this._controlCenter.menu);
             Main.panel._rightBox.add_child(this._controlCenter.container);
 
-            this._clockWidget = new ClockWidget(this._panelSettings);
+            this._notificationCenter = new NotificationCenterPanel();
+            this._clockWidget = new ClockWidget(this._panelSettings, () => this._notificationCenter.toggle());
             Main.panel._rightBox.add_child(this._clockWidget);
 
             this._blendColor = null;
@@ -162,13 +167,24 @@ export default class MacosTopPanelExtension extends Extension {
             declarations.push(`height: ${height}px`);
 
         const blendEnabled = this._panelSettings.get_boolean('window-color-blend-enabled');
-        if (blendEnabled && this._blendColor)
+        const showGlass = blendEnabled && !!this._blendColor;
+        if (showGlass)
             declarations.push(`background-color: ${this._blendColor}`);
 
         const fg = this._panelForeground === 'black' ? 'black' : 'white';
         declarations.push(`color: ${fg}`);
 
         Main.panel.style = declarations.length ? `${declarations.join('; ')};` : null;
+
+        // Liquid glass rim + top inset highlight (stylesheet.css's .macos-panel-glass) only
+        // while a window is actually touching the bar and blend is supplying a translucent
+        // tint (see windowColorBlend.js) via the inline background-color above -- with
+        // nothing touching, the bar stays exactly as fully transparent as the stock theme's
+        // own #panel rule, no rim, no fill, per explicit request.
+        if (showGlass)
+            Main.panel.add_style_class_name('macos-panel-glass');
+        else
+            Main.panel.remove_style_class_name('macos-panel-glass');
 
         Main.panel.remove_style_class_name('macos-panel-fg-black');
         Main.panel.remove_style_class_name('macos-panel-fg-white');
@@ -296,10 +312,14 @@ export default class MacosTopPanelExtension extends Extension {
         this._panelForeground = null;
         Main.panel.remove_style_class_name('macos-panel-fg-black');
         Main.panel.remove_style_class_name('macos-panel-fg-white');
+        Main.panel.remove_style_class_name('macos-panel-glass');
         Main.panel.style = null;
 
         this._clockWidget?.destroy();
         this._clockWidget = null;
+
+        this._notificationCenter?.destroy();
+        this._notificationCenter = null;
 
         if (this._controlCenter?.menu)
             Main.panel.menuManager.removeMenu(this._controlCenter.menu);
@@ -315,6 +335,7 @@ export default class MacosTopPanelExtension extends Extension {
         this._searchIndicator?.destroy();
         this._searchIndicator = null;
         uninstallDashFilter();
+        uninstallNotificationSlide();
 
         if (this._wifiIndicator?.menu)
             Main.panel.menuManager.removeMenu(this._wifiIndicator.menu);
