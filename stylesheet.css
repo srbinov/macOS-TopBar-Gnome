@@ -414,9 +414,10 @@
   border-radius: 999px;
 }
 
-.macos-control-center-circle-button StIcon {
-  icon-size: 29px; /* 20% smaller than 36px */
-}
+/* No StIcon icon-size rule here: the icon's size is set directly in JS
+   (controlCenterIndicator.js's CIRCLE_ICON_SIZE), which always wins over this CSS for the
+   same property -- a rule here would just be dead weight that looks like it controls
+   something it doesn't. */
 
 .macos-control-center-slider-card {
   border-radius: 22px;
