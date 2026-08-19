@@ -530,6 +530,12 @@
   background-color: rgba(255, 255, 255, 0.18);
 }
 
+/* Hint text ("Search") renders as its own child StLabel with this exact class -- verified
+   against GNOME's own stock StEntry rule (StEntry StLabel.hint-text), not a guess. */
+.macos-applauncher-search .hint-text {
+  color: white;
+}
+
 .macos-applauncher-tile {
   background-color: transparent;
   border: none;
