@@ -409,13 +409,13 @@
 }
 
 .macos-control-center-circle-button {
-  width: 64px;
-  height: 64px;
+  width: 51px; /* 20% smaller than 64px */
+  height: 51px;
   border-radius: 999px;
 }
 
 .macos-control-center-circle-button StIcon {
-  icon-size: 36px;
+  icon-size: 29px; /* 20% smaller than 36px */
 }
 
 .macos-control-center-slider-card {
