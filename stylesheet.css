@@ -492,3 +492,70 @@
   background-gradient-end: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.25);
 }
+
+/*###############################################*/
+/*         App Launcher (Launchpad) Styles        */
+/*###############################################*/
+.macos-applauncher-dim {
+  background-color: rgba(20, 20, 25, 0.72);
+}
+
+.macos-applauncher-content {
+  spacing: 28px;
+}
+
+.macos-applauncher-search {
+  width: 320px;
+  border-radius: 999px;
+  padding: 8px 18px;
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.macos-applauncher-search:focus {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.macos-applauncher-tile {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.macos-applauncher-tile:hover,
+.macos-applauncher-tile:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.macos-applauncher-tile:active {
+  background-color: rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+}
+
+.macos-applauncher-label {
+  color: white;
+  font-size: 0.85em;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.macos-applauncher-dots {
+  padding-top: 4px;
+}
+
+.macos-applauncher-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+.macos-applauncher-dot:hover {
+  background-color: rgba(255, 255, 255, 0.55);
+}
+
+.macos-applauncher-dot.active {
+  background-color: rgba(255, 255, 255, 0.9);
+}
