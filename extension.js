@@ -14,6 +14,7 @@ import {installDashFilter, uninstallDashFilter} from './lib/dashFilter.js';
 import {installNotificationSlide, uninstallNotificationSlide} from './lib/notificationTray.js';
 import {NotificationCenterPanel} from './lib/notificationCenter.js';
 import {AppLauncherOverlay} from './lib/appLauncher.js';
+import {DockOrderGuard} from './lib/dockOrderGuard.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
 import {MenuManager} from './lib/menuManager.js';
 import {ControlCenterIndicator} from './lib/controlCenterIndicator.js';
@@ -95,6 +96,11 @@ export default class MacosTopPanelExtension extends Extension {
             // Launchpad-style app grid, triggered from a Dock icon (peachos-applauncher.desktop)
             // over D-Bus rather than a panel widget -- see lib/appLauncher.js.
             this._appLauncher = new AppLauncherOverlay();
+
+            // peachos-icon-appearance (Settings > Appearance > icon style) snapshots/restores
+            // the dock's actual app order around its bulk icon swap over D-Bus -- see
+            // lib/dockOrderGuard.js for why this has to live here, in the Shell process.
+            this._dockOrderGuard = new DockOrderGuard();
 
             this._blendColor = null;
             this._panelForeground = 'white';
@@ -328,6 +334,9 @@ export default class MacosTopPanelExtension extends Extension {
 
         this._appLauncher?.destroy();
         this._appLauncher = null;
+
+        this._dockOrderGuard?.destroy();
+        this._dockOrderGuard = null;
 
         if (this._controlCenter?.menu)
             Main.panel.menuManager.removeMenu(this._controlCenter.menu);
