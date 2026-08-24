@@ -578,3 +578,50 @@
 .macos-applauncher-dot.active {
   background-color: rgba(255, 255, 255, 0.9);
 }
+
+/*###############################################*/
+/*        Wi-Fi / Bluetooth dropdown lists       */
+/*###############################################*/
+
+/* Shared by the Wi-Fi network list (wifiIndicator.js) and the Bluetooth
+   device list (bluetoothIndicator.js) -- capped height so a dense scan
+   result grows a scrollbar instead of the whole dropdown past the screen. */
+.wifi-networks-scroll {
+  max-height: 260px;
+}
+
+.wifi-networks-scroll .popup-menu-item {
+  spacing: 8px;
+}
+
+/*###############################################*/
+/*           Wi-Fi password dialog               */
+/*###############################################*/
+
+.wifi-password-dialog {
+  min-width: 340px;
+}
+
+.wifi-password-content {
+  spacing: 12px;
+  padding: 6px 4px;
+}
+
+.wifi-password-title {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.wifi-password-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9em;
+}
+
+.wifi-password-entry {
+  min-width: 280px;
+}
+
+.wifi-password-error {
+  color: #f66151;
+  font-size: 0.9em;
+}

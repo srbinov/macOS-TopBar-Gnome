@@ -1,4 +1,4 @@
-import {parseBluetoothState} from '../lib/bluetoothData.js';
+import {parseBluetoothState, sortBluetoothDevices} from '../lib/bluetoothData.js';
 
 function assertEqual(actual, expected, msg) {
     const a = JSON.stringify(actual);
@@ -34,6 +34,27 @@ function assertEqual(actual, expected, msg) {
     const result = parseBluetoothState({powered: true, connectedDeviceName: 'AirPods'});
     assertEqual(result.connectedDeviceName, 'AirPods', 'connected: device name');
     assertEqual(result.statusLabel, 'AirPods', 'connected: statusLabel is the device name');
+}
+
+// sortBluetoothDevices: connected first, then paired, then discovered-only; alpha within group
+{
+    const result = sortBluetoothDevices([
+        {path: '/a', name: 'Zebra Speaker', connected: false, paired: true},
+        {path: '/b', name: 'AirPods', connected: true, paired: true},
+        {path: '/c', name: 'Random Scanner', connected: false, paired: false},
+        {path: '/d', name: 'Apple Mouse', connected: false, paired: true},
+    ]);
+    assertEqual(result.map(d => d.name), ['AirPods', 'Apple Mouse', 'Zebra Speaker', 'Random Scanner'],
+        'connected first, then paired alphabetically, then discovered-only');
+}
+
+// sortBluetoothDevices: unnamed devices sort last within their group
+{
+    const result = sortBluetoothDevices([
+        {path: '/a', name: null, connected: false, paired: true},
+        {path: '/b', name: 'Keyboard', connected: false, paired: true},
+    ]);
+    assertEqual(result.map(d => d.name), ['Keyboard', null], 'unnamed device sorts after named ones');
 }
 
 print('All bluetoothData tests passed.');
