@@ -4,22 +4,15 @@
     font-family: "SF Pro Display", sans-serif;
 }
 
-/* Liquid glass rim + top inset highlight (see docs/liquid-glass-style.md, "Shared glass
-   recipe") -- but *not* the recipe's own fill or gradient. This class is only added by
-   extension.js while a window is actually touching the bar and window-color-blend is
-   supplying a (translucent, see windowColorBlend.js) tint via Main.panel's own inline
-   background-color; with nothing touching, #panel keeps the stock theme's plain
-   `background-color: transparent` untouched, no rim, no fill at all. Earlier attempt made
-   this the panel's permanent resting look (always-on fill + gradient); the gradient's
-   top-to-bottom alpha sweep in particular (0.28 -> 0.08, meant for a small square tile) read
-   as a stray pale band across the bottom of a thin 40px full-width bar rather than glass
-   depth, and even flattened to one alpha it was still winning against the intent of a
-   genuinely transparent idle bar -- so the fill/gradient are dropped entirely here, only the
-   rim and highlight are shared with the Control Center's glass. */
-.macos-panel-glass {
-    border: 1px solid rgba(255, 255, 255, 0.42);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
+/* No .macos-panel-glass rule here on purpose -- two earlier attempts both put some version
+   of the Control Center's liquid-glass recipe (fill+gradient, then just a rim+inset
+   highlight) on #panel while a window touches it. Both read wrong: that recipe is sized for
+   small square tiles, and on a thin full-width bar the top highlight in particular painted a
+   stray white hairline right at the panel/window seam instead of glass depth. The panel now
+   gets a single opaque background-color (see extension.js's _applyPanelStyle(),
+   windowTouchFill() in lib/colorUtil.js) with no border/box-shadow at all -- idle stays the
+   theme's own plain transparent #panel, blended is a flat opaque match of the window's real
+   chrome color, nothing in between. */
 
 /* Contrast chrome when the bar is transparent over wallpaper (or blended). */
 #panel.macos-panel-fg-black,
@@ -81,7 +74,7 @@
    64px min-height -- see the MacTahoe theme's own gnome-shell.css), and the same liquid
    glass recipe as the Control Center (docs/liquid-glass-style.md, "Shared glass recipe"),
    copied as-is including the gradient sweep -- unlike the top panel (a thin, full-width bar,
-   where that same sweep read as a stray pale seam, see .macos-panel-glass above), a
+   where that same sweep read as a stray pale seam, see the comment above), a
    notification banner is a small bounded card much closer in proportions to the Control
    Center's own tiles, so the gradient reads as intended depth here rather than exposing
    whatever's behind it. !important throughout for the same reason as the icon spacing rule

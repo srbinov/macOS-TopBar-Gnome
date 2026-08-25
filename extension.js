@@ -112,10 +112,19 @@ export default class MacosTopPanelExtension extends Extension {
                     this._applyPanelStyle();
                     this._applyPanelForeground(foreground);
                 });
-            this._windowColorBlend.enable();
+            // Not an unconditional enable() -- honor whatever window-color-blend-enabled is
+            // already set to at startup, same as every later toggle (see
+            // _syncWindowColorBlend()). Enabling the sampler regardless of the setting was
+            // exactly the "toggle only skips paint, sampler keeps running" bug: the bar's own
+            // background stayed correctly transparent while off, but icon/text color still
+            // shifted between black and white as windows moved underneath it, because
+            // _applyPanelForeground() isn't gated on the setting -- only the CSS fill is.
+            this._syncWindowColorBlend();
 
             this._panelSettingsChangedId = this._panelSettings.connect('changed', (_settings, key) => {
-                if (key === 'panel-height' || key === 'window-color-blend-enabled')
+                if (key === 'window-color-blend-enabled')
+                    this._syncWindowColorBlend();
+                else if (key === 'panel-height')
                     this._applyPanelStyle();
                 else if (key.startsWith('show-') && key.endsWith('-icon'))
                     this._applyIconVisibility();
@@ -170,6 +179,27 @@ export default class MacosTopPanelExtension extends Extension {
         return {x, y, width, height};
     }
 
+    // Turns the window-color-blend-enabled setting on/off for real, not just for painting.
+    // Toggling it off used to leave WindowColorBlend running -- background-color correctly
+    // stayed unset (see _applyPanelStyle()'s own blendEnabled check), but the sampler kept
+    // calling pick_color() every debounce cycle and kept pushing black/white foreground into
+    // every panel indicator based on whatever window was underneath, so icon/text color still
+    // visibly shifted with "off" selected. Off now means: sampler actually disabled, no
+    // stale blend color left cached, foreground reset to the idle default, panel repainted
+    // to match.
+    _syncWindowColorBlend() {
+        const enabled = this._panelSettings.get_boolean('window-color-blend-enabled');
+        if (enabled) {
+            this._windowColorBlend.enable();
+        } else {
+            this._windowColorBlend.disable();
+            this._blendColor = null;
+            this._panelForeground = 'white';
+            this._applyPanelStyle();
+            this._applyPanelForeground('white');
+        }
+    }
+
     _applyPanelStyle() {
         const declarations = [];
 
@@ -178,24 +208,23 @@ export default class MacosTopPanelExtension extends Extension {
             declarations.push(`height: ${height}px`);
 
         const blendEnabled = this._panelSettings.get_boolean('window-color-blend-enabled');
-        const showGlass = blendEnabled && !!this._blendColor;
-        if (showGlass)
+        const showBlend = blendEnabled && !!this._blendColor;
+        if (showBlend) {
+            // Opaque window-chrome color (see windowTouchFill()) plus an explicit
+            // border/box-shadow reset -- no rim/highlight class goes on the panel at all (a
+            // 1px liquid-glass rim reads as a stray white hairline across a thin full-width
+            // bar, not depth; that recipe is for small Control Center-style cards). The reset
+            // is belt-and-suspenders so the theme's own #panel rule can't leave a seam behind
+            // even if it ever sets a border/shadow of its own.
             declarations.push(`background-color: ${this._blendColor}`);
+            declarations.push('border: none');
+            declarations.push('box-shadow: none');
+        }
 
         const fg = this._panelForeground === 'black' ? 'black' : 'white';
         declarations.push(`color: ${fg}`);
 
         Main.panel.style = declarations.length ? `${declarations.join('; ')};` : null;
-
-        // Liquid glass rim + top inset highlight (stylesheet.css's .macos-panel-glass) only
-        // while a window is actually touching the bar and blend is supplying a translucent
-        // tint (see windowColorBlend.js) via the inline background-color above -- with
-        // nothing touching, the bar stays exactly as fully transparent as the stock theme's
-        // own #panel rule, no rim, no fill, per explicit request.
-        if (showGlass)
-            Main.panel.add_style_class_name('macos-panel-glass');
-        else
-            Main.panel.remove_style_class_name('macos-panel-glass');
 
         Main.panel.remove_style_class_name('macos-panel-fg-black');
         Main.panel.remove_style_class_name('macos-panel-fg-white');
@@ -323,7 +352,6 @@ export default class MacosTopPanelExtension extends Extension {
         this._panelForeground = null;
         Main.panel.remove_style_class_name('macos-panel-fg-black');
         Main.panel.remove_style_class_name('macos-panel-fg-white');
-        Main.panel.remove_style_class_name('macos-panel-glass');
         Main.panel.style = null;
 
         this._clockWidget?.destroy();
