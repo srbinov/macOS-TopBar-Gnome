@@ -13,6 +13,7 @@ import {SearchIndicator} from './lib/searchIndicator.js';
 import {installDashFilter, uninstallDashFilter} from './lib/dashFilter.js';
 import {installNotificationSlide, uninstallNotificationSlide} from './lib/notificationTray.js';
 import {NotificationCenterPanel} from './lib/notificationCenter.js';
+import {NotificationBannerGlass} from './lib/notificationBannerGlass.js';
 import {AppLauncherOverlay} from './lib/appLauncher.js';
 import {DockOrderGuard} from './lib/dockOrderGuard.js';
 import {SoundIndicator} from './lib/soundIndicator.js';
@@ -79,7 +80,10 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel._rightBox.add_child(this._searchIndicator.container);
             installDashFilter();
 
-            installNotificationSlide(Main.messageTray);
+            // Lazy lookup (not a direct bound reference) since this._notificationBannerGlass
+            // isn't constructed until further down -- fine, no banner can actually arrive
+            // synchronously during enable() itself, only ever well after this returns.
+            installNotificationSlide(Main.messageTray, point => this._notificationBannerGlass?.sampleAdaptive(point));
 
             this._soundIndicator = new SoundIndicator();
             Main.panel.menuManager.addMenu(this._soundIndicator.menu);
@@ -90,6 +94,7 @@ export default class MacosTopPanelExtension extends Extension {
             Main.panel._rightBox.add_child(this._controlCenter.container);
 
             this._notificationCenter = new NotificationCenterPanel();
+            this._notificationBannerGlass = new NotificationBannerGlass();
             this._clockWidget = new ClockWidget(this._panelSettings, () => this._notificationCenter.toggle());
             Main.panel._rightBox.add_child(this._clockWidget);
 
@@ -359,6 +364,8 @@ export default class MacosTopPanelExtension extends Extension {
 
         this._notificationCenter?.destroy();
         this._notificationCenter = null;
+        this._notificationBannerGlass?.destroy();
+        this._notificationBannerGlass = null;
 
         this._appLauncher?.destroy();
         this._appLauncher = null;

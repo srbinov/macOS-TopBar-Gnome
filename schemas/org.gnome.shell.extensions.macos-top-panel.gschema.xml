@@ -23,6 +23,12 @@
             <summary>Match touching window color</summary>
             <description>When a window's edge touches the top of the screen, the panel background samples and matches its color there instead of using the default background.</description>
         </key>
+        <key type="i" name="liquid-glass-intensity">
+            <default>100</default>
+            <range min="0" max="100"/>
+            <summary>Liquid glass intensity</summary>
+            <description>How translucent the Control Center, Notification Center, and notification banners are. 100 is full glass (the original translucent look); 0 is fully solid/opaque (white in light mode, dark in dark mode), interpolated linearly in between. Does not affect the dock.</description>
+        </key>
         <key type="b" name="auto-hide-in-fullscreen">
             <default>false</default>
             <summary>Auto-hide the menu bar in full screen</summary>

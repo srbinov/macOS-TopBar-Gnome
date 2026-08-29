@@ -70,27 +70,39 @@
     padding: 0 0.075px !important;
 }
 
-/* Notification banner: 20% smaller than the theme's own .notification-banner (34em wide,
-   64px min-height -- see the MacTahoe theme's own gnome-shell.css), and the same liquid
-   glass recipe as the Control Center (docs/liquid-glass-style.md, "Shared glass recipe"),
-   copied as-is including the gradient sweep -- unlike the top panel (a thin, full-width bar,
-   where that same sweep read as a stray pale seam, see the comment above), a
-   notification banner is a small bounded card much closer in proportions to the Control
-   Center's own tiles, so the gradient reads as intended depth here rather than exposing
-   whatever's behind it. !important throughout for the same reason as the icon spacing rule
-   above: same selector specificity as the theme's own rule (which also sets its own
-   background-color/border/box-shadow -- see gnome-shell.css), so load order alone would
-   decide the winner without it. Text stays the theme's own near-white #dedede, already a
-   match for the doc's "primary title: white / 0.95-0.98 alpha" typography guidance. */
+/* Notification banner: wider and shorter than both this project's own earlier size
+   (27.2em/51px) and the theme's own stock .notification-banner (34em/64px -- see the
+   MacTahoe theme's own gnome-shell.css) -- a flatter, more horizontal card, closer to how
+   a real macOS notification banner reads (a wide single/double-line strip, not a tall
+   near-square card). !important for the same reason as the icon spacing rule above: same
+   selector specificity as the theme's own rule, so load order alone would decide the
+   winner without it.
+   The glass background/gradient/border/box-shadow (and text color -- see that module's own
+   comment for why text needed to move too) are deliberately NOT set here anymore --
+   they live entirely in lib/notificationBannerGlass.js's dynamically (re)loaded stylesheet
+   now, driven by the Liquid Glass intensity slider. Real, reproducible bug that shaped
+   this: both this rule and that dynamic one used !important on the same
+   .notification-banner selector (a genuine importance+specificity tie), and GNOME's own
+   St.Theme cascade does NOT let a later `load_stylesheet()`-loaded sheet win that kind of
+   tie against an extension's own auto-loaded stylesheet.css -- so the slider's math was
+   computing and writing correctly the whole time, but this rule's hardcoded 100%-intensity
+   values always won regardless of the slider's position. Leaving ONLY width/min-height
+   here (which the glass module doesn't touch) removes that tie entirely: the dynamic
+   sheet's !important is now the only one on those properties, so it always beats the
+   theme's plain (non-!important) rule with no load-order ambiguity. See
+   ControlCenterGlass's own equivalent tiles for the same reason this pattern (no
+   competing !important left to tie against) is what actually makes the dynamic stylesheet
+   reliable. */
 .notification-banner {
-    width: 27.2em !important;
-    min-height: 51px !important;
-    background-color: rgba(255, 255, 255, 0.12) !important;
-    background-gradient-direction: vertical !important;
-    background-gradient-start: rgba(255, 255, 255, 0.28) !important;
-    background-gradient-end: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(255, 255, 255, 0.42) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
+    min-height: 42px !important;
+}
+
+/* The notification's own app icon (MacTahoe's own gnome-shell.css: icon-size 48px on this
+   exact class) -- 20% bigger, 48px -> 58px (48 * 1.2 = 57.6, rounded). !important for the
+   same load-order reason as .notification-banner above. */
+.message .message-box .message-icon {
+    icon-size: 58px !important;
 }
 
 /* Notification Center (lib/notificationCenter.js): same liquid glass recipe again, gradient
@@ -113,22 +125,23 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* Battery icon: same square-canvas asset as before (icons/panel/battery-*.png, widened +
-   padded so a forced-square icon-size render doesn't distort it), but rendered noticeably
-   bigger than the other system-status icons -- at the stock 1.091em it read as a tiny
-   horizontal dash. Scaling the whole square up scales the letterboxed art inside it
-   proportionally, so it grows both taller and wider together rather than needing separate
-   width/height overrides. */
+/* Battery icon: an St.DrawingArea now (lib/batteryCanvas.js draws a real macOS-style
+   glyph -- outline + a fill bar sized to the actual charge percentage -- instead of a
+   static "always full" PNG), so its size is set directly in JS (batteryIndicator.js's
+   GLYPH_WIDTH/GLYPH_HEIGHT), not via icon-size here -- that CSS property only affects
+   St.Icon. Nothing to size in this rule as a result; kept as a hook in case a future
+   St-level tweak (opacity, etc.) needs one. */
 .macos-battery-icon {
-    icon-size: 1.8em;
 }
 
 /* No font-size/weight here on purpose, same reasoning as the clock (see clockWidget.js):
    panel-button-label already gives this the exact size/weight every other panel label uses,
    so a fixed rule here would just reintroduce a second, competing sizing path. Just a small
-   gap from the icon. */
+   gap from the icon -- on the right now, not the left: the label sits BEFORE the icon
+   (percentage reads to the left of the glyph, matching real macOS), so the gap that used
+   to separate "icon, then label" now separates "label, then icon" instead. */
 .macos-battery-label {
-    margin-left: 2px;
+    margin-right: 2px;
 }
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -294,7 +307,11 @@
  * override the content node explicitly so blur + tile translucency can show.
  */
 .macos-control-center-menu {
-  width: 360px;
+  /* Content area (menu width minus the 14px padding on each side below) matches a row
+     of 4 circle buttons exactly: 4 * 51px + 3 * 10px spacing = 234px. Every row in the
+     menu -- both circle rows, both sliders, and the wifi/bluetooth+media top row --
+     fits within this same width. */
+  width: 262px;
   background-color: transparent;
   border: none;
   box-shadow: none;
@@ -340,6 +357,12 @@
  * translucent fill + vertical highlight gradient + brighter rim + soft
  * inset top edge. No Shell.BlurEffect on the popup shell (that crashes
  * Clutter after screenshot UI); wallpaper already shows through.
+ *
+ * This is the LIGHT/white-tinted default -- correct look for the common case
+ * (desktop wallpaper, dark-ish windows). See the "tile-on-light" block below for the
+ * adaptive dark variant used when lib/backgroundAdaptiveController.js detects the popup
+ * is sitting over something bright (a white webpage, for instance), where a white-tinted
+ * fill would read as white-on-white and become unreadable.
  */
 .macos-control-center-pill,
 .macos-control-center-circle-button,
@@ -357,7 +380,7 @@
 
 .macos-control-center-pill {
   border-radius: 999px;
-  padding: 10px 14px;
+  padding: 6px 8px;
 }
 
 .macos-control-center-pill:hover,
@@ -376,28 +399,48 @@
   border-color: rgba(255, 255, 255, 0.58);
 }
 
+/*
+ * Adaptive DARK glass -- backgroundAdaptiveController.js's Shell.Screenshot sample (same
+ * proven pick_color() mechanism as windowColorBlend.js's panel-blend feature, just checking
+ * "is this bright" instead of "what color is this") toggles .macos-control-center-tile-on-
+ * light on a tile when the popup is sitting over something very light.
+ *
+ * The actual declarations for this now live in controlCenterGlass.js (ADAPTIVE_RECIPE etc.
+ * in liquidGlassIntensity.js), not here -- real regression found and fixed: this used to be
+ * a plain (non-!important) rule that out-specificity'd the base/hover/.on tile rules just
+ * fine when THOSE were also plain. Once the Liquid Glass slider made the base/hover/.on
+ * rules !important (needed to beat their OWN static counterparts here), !important started
+ * winning outright regardless of this rule's higher specificity, silently disabling the
+ * whole adaptive-dark-tile feature. Moving it into the same dynamically-generated
+ * !important stylesheet (as an even-higher-specificity compound selector, so it still wins
+ * the tie against the base rules there) was the only way to keep both features working
+ * together -- and lets it interpolate with the Liquid Glass slider too, instead of being
+ * stuck at one fixed "100% adaptive glass" look. Left here, empty of declarations, so
+ * anyone grepping for .macos-control-center-tile-on-light still finds this comment.
+ */
+
 .macos-control-center-pill-icon-badge {
-  width: 30px;
-  height: 30px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background-color: rgba(255, 255, 255, 0.92);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .macos-control-center-pill-icon-badge StIcon {
-  icon-size: 16px;
+  icon-size: 12px;
   /* Follow the accent color from Settings → Appearance. */
   color: -st-accent-color;
 }
 
 .macos-control-center-pill-title {
   font-weight: bold;
-  font-size: 1em;
+  font-size: 0.8em;
   color: white;
 }
 
 .macos-control-center-pill-subtitle {
-  font-size: 0.85em;
+  font-size: 0.68em;
   color: rgba(255, 255, 255, 0.85);
 }
 
@@ -412,6 +455,12 @@
    same property -- a rule here would just be dead weight that looks like it controls
    something it doesn't. */
 
+/* Symbolic icons (calculator/timer/pencil/dnd) recolor via this -- unlike the
+   screenshot/appearance circles, which are pre-baked white PNGs and ignore it entirely. */
+.macos-control-center-circle-button StIcon {
+  color: rgba(255, 255, 255, 0.95);
+}
+
 .macos-control-center-slider-card {
   border-radius: 22px;
   padding: 12px 16px;
@@ -423,6 +472,12 @@
   color: rgba(255, 255, 255, 0.95);
 }
 
+.macos-control-center-slider-card.macos-control-center-tile-on-light {
+  background-color: rgba(12, 12, 15, 0.6);
+  background-gradient-start: rgba(38, 38, 43, 0.6);
+  background-gradient-end: rgba(6, 6, 8, 0.78);
+}
+
 .macos-control-center-slider-card .macos-control-center-pill-title {
   color: rgba(255, 255, 255, 0.95);
 }
@@ -432,15 +487,15 @@
 }
 
 .macos-control-center-media-card {
-  border-radius: 22px;
-  padding: 12px;
-  spacing: 6px;
+  border-radius: 18px;
+  padding: 8px;
+  spacing: 4px;
 }
 
 .macos-control-center-media-art {
-  width: 72px;
-  height: 72px;
-  border-radius: 14px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.14);
   background-gradient-direction: vertical;
   background-gradient-start: rgba(255, 255, 255, 0.22);
@@ -450,29 +505,29 @@
 }
 
 .macos-control-center-media-art StIcon {
-  width: 72px;
-  height: 72px;
-  icon-size: 72px;
+  width: 48px;
+  height: 48px;
+  icon-size: 48px;
 }
 
 .macos-control-center-media-title {
   font-weight: bold;
-  font-size: 0.95em;
+  font-size: 0.78em;
   color: rgba(255, 255, 255, 0.98);
 }
 
 .macos-control-center-media-artist {
-  font-size: 0.8em;
+  font-size: 0.65em;
   color: rgba(255, 255, 255, 0.88);
 }
 
 .macos-control-center-media-transport {
-  spacing: 10px;
+  spacing: 4px;
 }
 
 .macos-control-center-transport-button {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 999px;
   background-color: transparent;
   color: rgba(255, 255, 255, 0.95);
@@ -617,4 +672,17 @@
 .wifi-password-error {
   color: #f66151;
   font-size: 0.9em;
+}
+
+/* Sound indicator's own dropdown volume slider (soundIndicator.js) -- same idea as the
+   Control Center's Volume tile (.macos-control-center-slider-card .macos-control-center-row),
+   just laid out as a plain popup-menu-item row instead of a liquid-glass card, since this
+   dropdown is a genuine system-styled PopupMenu (no glass here, per its own request). */
+.macos-panel-slider-item {
+  spacing: 8px;
+  padding: 6px 12px;
+}
+
+.macos-panel-slider-item .slider {
+  height: 16px;
 }
