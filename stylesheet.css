@@ -94,7 +94,17 @@
    competing !important left to tie against) is what actually makes the dynamic stylesheet
    reliable. */
 .notification-banner {
-    width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
+    /* `width` forced every notification to this same fixed size regardless of content --
+       fine for a real notification with a full title+body, but a short one (a test
+       notification with just a couple words) rendered as mostly empty space, a small icon
+       and a few words floating in a way-too-large card (confirmed live against a real
+       screenshot, not guessed). `max-width` is the actual fix: caps it at this same width
+       for long content, but lets the card shrink to fit short content instead of forcing
+       it wide regardless. Confirmed against St's own real source
+       (st-theme-node.c: st_theme_node_get_max_width(), a genuinely parsed CSS property, not
+       assumed supported) before using it, given how many CSS-property guesses already went
+       wrong tonight. */
+    max-width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
     min-height: 42px !important;
     /* The theme's own stock padding here is 4px -- measured directly against a real macOS
        notification screenshot (user-supplied reference, Tahoe's actual Notification Center),
