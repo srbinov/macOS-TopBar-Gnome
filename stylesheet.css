@@ -96,13 +96,24 @@
 .notification-banner {
     width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
     min-height: 42px !important;
+    /* The theme's own stock padding here is 4px -- measured directly against a real macOS
+       notification screenshot (user-supplied reference, Tahoe's actual Notification Center),
+       which shows noticeably more generous, even space around the icon and text than that.
+       !important for the same load-order reason as width/min-height above. */
+    padding: 14px !important;
 }
 
-/* The notification's own app icon (MacTahoe's own gnome-shell.css: icon-size 48px on this
-   exact class) -- 20% bigger, 48px -> 58px (48 * 1.2 = 57.6, rounded). !important for the
-   same load-order reason as .notification-banner above. */
-.message .message-box .message-icon {
-    icon-size: 58px !important;
+/* The notification's own app icon. Previously overridden to 58px (20% bigger than
+   MacTahoe's own stock 48px) -- an aesthetic guess made without a real reference, and wrong:
+   measured against the same real macOS screenshot above, the icon there occupies roughly 60%
+   of the card's content height, not the ~77% a 58px icon works out to on a similarly-sized
+   real card. Reverted to the theme's own stock 48px (no override at all -- removing the rule
+   entirely, not replacing it with a different hardcoded number, since the theme's own value
+   already lands close to the measured target). */
+.message .message-box .message-icon:ltr {
+    /* Theme default is 4px -- also visibly tighter than the real reference's icon-to-text
+       gap. !important for the same load-order reason as everything else in this block. */
+    margin-right: 12px !important;
 }
 
 /* Notification Center (lib/notificationCenter.js): same liquid glass recipe again, gradient
