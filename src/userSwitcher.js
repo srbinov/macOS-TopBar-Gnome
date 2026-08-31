@@ -676,7 +676,7 @@ export const UserSwitcherButton = GObject.registerClass(
     }
 
     _openUserSettings() {
-      Util.spawn(['gnome-control-center', 'system', 'users']);
+      Util.spawn(['peachos-settings', 'users']);
     }
 
     _updatePanelIcon(users, currentUserName) {

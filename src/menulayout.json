@@ -11,7 +11,7 @@
   {
     "type": "menu",
     "title": "System Settings...",
-    "cmds": ["gnome-control-center"],
+    "cmds": ["peachos-settings"],
     "icon": "preferences-system-symbolic",
     "accelKey": "control-center"
   },

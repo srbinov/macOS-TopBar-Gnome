@@ -212,9 +212,9 @@ function buildWindow(application) {
   moreInfoButton.add_css_class('kiwi-about-button');
   moreInfoButton.connect('clicked', () => {
     try {
-      Gio.Subprocess.new(['gnome-control-center', 'about'], Gio.SubprocessFlags.NONE);
+      Gio.Subprocess.new(['peachos-settings', 'general_about'], Gio.SubprocessFlags.NONE);
     } catch (error) {
-      logError(error, 'Failed to open GNOME Settings about panel');
+      logError(error, 'Failed to open peachOS Settings About page');
     }
   });
 
