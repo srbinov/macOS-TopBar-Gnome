@@ -109,11 +109,18 @@
    sweep included -- this is a tall floating card (like the Control Center's own popup), not
    a thin bar, so the sweep reads as depth rather than exposing what's behind it. The
    .message-list/.message-notification-group/.message classes nested inside (all from
-   GNOME's own Calendar.CalendarMessageList/messageList.js) are left completely untouched:
+   GNOME's own Calendar.CalendarMessageList/messageList.js) are otherwise left untouched:
    .message-list itself has no background of its own in the theme, so the glass shows
    through it cleanly, and the individual notification cards' existing darker
    :second-in-stack/:lower-in-stack shading already reads as a stack of cards sitting on top
-   of the glass -- exactly the look being reproduced here, no need to restyle it. */
+   of the glass -- exactly the look being reproduced here, no need to restyle it. One
+   exception as of notificationBannerGlass.js's own .message-body color rule: that rule
+   intentionally mirrors gnome-shell.css's own bare `.message .message-box .message-content
+   .message-title` selector (no notification-banner-specific scoping -- two earlier, more
+   precisely-scoped attempts silently matched nothing, see that file's own comment), so it
+   also dims Notification Center's own body text to the same 0.75 opacity. Not undone here --
+   consistent styling between the banner and the Notification Center reads as one system,
+   not a bug. */
 .macos-notification-center {
     border-radius: 20px;
     padding: 16px;
