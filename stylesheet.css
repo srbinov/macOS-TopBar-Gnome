@@ -106,24 +106,43 @@
        alongside a constant width -- there's nothing left for it to clamp. */
     width: 34em !important;
     min-height: 42px !important;
-    /* The theme's own stock padding here is 4px -- measured directly against a real macOS
-       notification screenshot (user-supplied reference, Tahoe's actual Notification Center),
-       which shows noticeably more generous, even space around the icon and text than that.
-       !important for the same load-order reason as width/min-height above. */
-    padding: 14px !important;
+    /* 14px (up from the theme's stock 4px) got the overall look roughly right, but after fixing
+       the icon-size math and the stock message-box overhead above, this padding is now the
+       main thing keeping the measured icon/card-height ratio (70.6%) a bit under the mockup's
+       measured 77% -- nudged down slightly to close most of that gap. !important for the same
+       load-order reason as width/min-height above. */
+    padding: 11px !important;
 }
 
-/* The notification's own app icon. Previously overridden to 58px (20% bigger than
-   MacTahoe's own stock 48px) -- an aesthetic guess made without a real reference, and wrong:
-   measured against the same real macOS screenshot above, the icon there occupies roughly 60%
-   of the card's content height, not the ~77% a 58px icon works out to on a similarly-sized
-   real card. Reverted to the theme's own stock 48px (no override at all -- removing the rule
-   entirely, not replacing it with a different hardcoded number, since the theme's own value
-   already lands close to the measured target). */
+/* The notification's own app icon. Two earlier, wrong values here: 58px (an unreferenced
+   aesthetic guess), then reverted to the theme's stock 48px on the belief a real screenshot
+   measured the icon at ~60% of card height -- also wrong, per the user's own explicit
+   corrective mockup, pixel-measured directly (not eyeballed): icon height is 162px against a
+   981px-wide, 211px-tall card, i.e. ~77% of card height, or ~16.5% of card WIDTH -- and width,
+   not height, is this card's fixed/independent dimension (see the width:34em rule above), so
+   the icon size is pinned to width: 0.165 * 34em =~5.6em =~72px in this environment. Height
+   isn't an independent design input here -- once the icon grows, the row (and so the card,
+   which sizes to its content) grows to fit it. */
 .message .message-box .message-icon:ltr {
-    /* Theme default is 4px -- also visibly tighter than the real reference's icon-to-text
-       gap. !important for the same load-order reason as everything else in this block. */
-    margin-right: 12px !important;
+    icon-size: 72px !important;
+    /* Mockup's icon-to-text gap measured at ~20px against the same 981px-wide card
+       (~8.75px at this card's actual 429px width) -- down from this rule's previous 12px,
+       which was itself only measured against a different, non-fixed-width reference. */
+    margin-right: 9px !important;
+}
+
+/* Real, measured overhead the icon-size math above didn't account for: the theme's own stock
+   `.message .message-box { padding: 4px; margin: 4px; margin-top: 0; }` adds ~12px of vertical
+   space around the icon+text row IN ADDITION to .notification-banner's own 14px padding above
+   -- confirmed by checking the theme file directly (gnome-shell.css), not inferred. That's
+   redundant: the banner's own padding already provides the space around content this rule was
+   also independently adding, and it's exactly what was pulling the icon-to-card-height ratio
+   down from the mockup's measured ~77% to ~59% once the icon was actually sized correctly.
+   Zeroed here rather than compensated for with a bigger icon, since the outer padding already
+   serves the purpose this was duplicating. */
+.message .message-box {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* Notification Center (lib/notificationCenter.js): same liquid glass recipe again, gradient
