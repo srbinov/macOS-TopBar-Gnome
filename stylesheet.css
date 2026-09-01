@@ -94,62 +94,26 @@
    competing !important left to tie against) is what actually makes the dynamic stylesheet
    reliable. */
 .notification-banner {
-    /* Wrong target for most of this saga: a real macOS notification banner is a FIXED-width
-       card -- width never changes with content, only height does (extra body lines make it
-       taller, never wider). Every previous fix here (max-width ceiling, then width:auto
-       content-hugging, then a JS-measured shrink-to-fit) was chasing the opposite behavior --
-       making the card SMALLER for short content -- which produced a tiny near-square chip,
-       not a notification. Confirmed explicitly by the user against a real macOS reference: the
-       right fix was always a plain, constant `width`, matching (by coincidence, once actually
-       measured) almost exactly what GNOME's own stock .notification-banner already used
-       (34em/~428px) before this rule ever touched the property at all. No max-width needed
-       alongside a constant width -- there's nothing left for it to clamp. */
-    /* User confirmed the shape/layout/proportions above are right, then asked for the whole
-       thing scaled down 20% -- every value below is the previous one * 0.8, keeping every
-       ratio (icon/card-height, card aspect, padding-to-content) exactly as already confirmed. */
-    width: 27.2em !important;
-    min-height: 34px !important;
-    padding: 9px !important;
+    width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
+    min-height: 42px !important;
 }
 
-/* Icon size, pinned to 0.165 * card width and verified against the user's own pixel-measured
-   mockup (see git history for that derivation) -- then scaled down 20% along with everything
-   else in this file per the user's explicit follow-up ask, same proportions throughout. */
-.message .message-box .message-icon:ltr {
+/* The notification's own app icon (MacTahoe's own gnome-shell.css: icon-size 48px on this
+   exact class) -- 20% bigger, 48px -> 58px (48 * 1.2 = 57.6, rounded). !important for the
+   same load-order reason as .notification-banner above. */
+.message .message-box .message-icon {
     icon-size: 58px !important;
-    margin-right: 7px !important;
-}
-
-/* Real, measured overhead the icon-size math above didn't account for: the theme's own stock
-   `.message .message-box { padding: 4px; margin: 4px; margin-top: 0; }` adds ~12px of vertical
-   space around the icon+text row IN ADDITION to .notification-banner's own 14px padding above
-   -- confirmed by checking the theme file directly (gnome-shell.css), not inferred. That's
-   redundant: the banner's own padding already provides the space around content this rule was
-   also independently adding, and it's exactly what was pulling the icon-to-card-height ratio
-   down from the mockup's measured ~77% to ~59% once the icon was actually sized correctly.
-   Zeroed here rather than compensated for with a bigger icon, since the outer padding already
-   serves the purpose this was duplicating. */
-.message .message-box {
-    padding: 0 !important;
-    margin: 0 !important;
 }
 
 /* Notification Center (lib/notificationCenter.js): same liquid glass recipe again, gradient
    sweep included -- this is a tall floating card (like the Control Center's own popup), not
    a thin bar, so the sweep reads as depth rather than exposing what's behind it. The
    .message-list/.message-notification-group/.message classes nested inside (all from
-   GNOME's own Calendar.CalendarMessageList/messageList.js) are otherwise left untouched:
+   GNOME's own Calendar.CalendarMessageList/messageList.js) are left completely untouched:
    .message-list itself has no background of its own in the theme, so the glass shows
    through it cleanly, and the individual notification cards' existing darker
    :second-in-stack/:lower-in-stack shading already reads as a stack of cards sitting on top
-   of the glass -- exactly the look being reproduced here, no need to restyle it. One
-   exception as of notificationBannerGlass.js's own .message-body color rule: that rule
-   intentionally mirrors gnome-shell.css's own bare `.message .message-box .message-content
-   .message-title` selector (no notification-banner-specific scoping -- two earlier, more
-   precisely-scoped attempts silently matched nothing, see that file's own comment), so it
-   also dims Notification Center's own body text to the same 0.75 opacity. Not undone here --
-   consistent styling between the banner and the Notification Center reads as one system,
-   not a bug. */
+   of the glass -- exactly the look being reproduced here, no need to restyle it. */
 .macos-notification-center {
     border-radius: 20px;
     padding: 16px;
