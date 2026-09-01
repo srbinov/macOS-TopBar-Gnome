@@ -94,24 +94,17 @@
    competing !important left to tie against) is what actually makes the dynamic stylesheet
    reliable. */
 .notification-banner {
-    /* `max-width` alone (a previous version of this rule) never actually fixed the
-       oversized-container bug, despite looking like it should: GNOME's own stock
-       gnome-shell.css sets `.notification-banner { width: 34em; }` on this exact selector,
-       and `max-width` only ever clamps that DOWN as a ceiling -- it does not remove the
-       forced width itself, so every notification, short or long, rendered at exactly this
-       ceiling regardless of content. That's why the card kept looking "way too big" (28.8em
-       is still much wider than a short "test" notification needs) through several previous
-       fix attempts here, and later, after a JS-based width override was tried instead of
-       this, why that JS timing-dependent measurement broke outright on real hardware (it
-       computed its own number too early/unreliably and hard-clipped real text -- see
-       notificationTray.js's own history for that). `width: auto` is the actual fix: verified
-       against St's real C source (st-theme-node.c's do_size_property()) that "auto" sets the
-       node's width value to -1, IDENTICAL to the property never being set at all -- so this
-       neutralizes the stock 34em outright and restores genuine content-based sizing, with
-       `max-width` still there purely as a ceiling for pathologically long content. No JS
-       measurement needed at all with this in place. */
-    width: auto !important;
-    max-width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
+    /* Wrong target for most of this saga: a real macOS notification banner is a FIXED-width
+       card -- width never changes with content, only height does (extra body lines make it
+       taller, never wider). Every previous fix here (max-width ceiling, then width:auto
+       content-hugging, then a JS-measured shrink-to-fit) was chasing the opposite behavior --
+       making the card SMALLER for short content -- which produced a tiny near-square chip,
+       not a notification. Confirmed explicitly by the user against a real macOS reference: the
+       right fix was always a plain, constant `width`, matching (by coincidence, once actually
+       measured) almost exactly what GNOME's own stock .notification-banner already used
+       (34em/~428px) before this rule ever touched the property at all. No max-width needed
+       alongside a constant width -- there's nothing left for it to clamp. */
+    width: 34em !important;
     min-height: 42px !important;
     /* The theme's own stock padding here is 4px -- measured directly against a real macOS
        notification screenshot (user-supplied reference, Tahoe's actual Notification Center),
