@@ -104,31 +104,20 @@
        measured) almost exactly what GNOME's own stock .notification-banner already used
        (34em/~428px) before this rule ever touched the property at all. No max-width needed
        alongside a constant width -- there's nothing left for it to clamp. */
-    width: 34em !important;
-    min-height: 42px !important;
-    /* 14px (up from the theme's stock 4px) got the overall look roughly right, but after fixing
-       the icon-size math and the stock message-box overhead above, this padding is now the
-       main thing keeping the measured icon/card-height ratio (70.6%) a bit under the mockup's
-       measured 77% -- nudged down slightly to close most of that gap. !important for the same
-       load-order reason as width/min-height above. */
-    padding: 11px !important;
+    /* User confirmed the shape/layout/proportions above are right, then asked for the whole
+       thing scaled down 20% -- every value below is the previous one * 0.8, keeping every
+       ratio (icon/card-height, card aspect, padding-to-content) exactly as already confirmed. */
+    width: 27.2em !important;
+    min-height: 34px !important;
+    padding: 9px !important;
 }
 
-/* The notification's own app icon. Two earlier, wrong values here: 58px (an unreferenced
-   aesthetic guess), then reverted to the theme's stock 48px on the belief a real screenshot
-   measured the icon at ~60% of card height -- also wrong, per the user's own explicit
-   corrective mockup, pixel-measured directly (not eyeballed): icon height is 162px against a
-   981px-wide, 211px-tall card, i.e. ~77% of card height, or ~16.5% of card WIDTH -- and width,
-   not height, is this card's fixed/independent dimension (see the width:34em rule above), so
-   the icon size is pinned to width: 0.165 * 34em =~5.6em =~72px in this environment. Height
-   isn't an independent design input here -- once the icon grows, the row (and so the card,
-   which sizes to its content) grows to fit it. */
+/* Icon size, pinned to 0.165 * card width and verified against the user's own pixel-measured
+   mockup (see git history for that derivation) -- then scaled down 20% along with everything
+   else in this file per the user's explicit follow-up ask, same proportions throughout. */
 .message .message-box .message-icon:ltr {
-    icon-size: 72px !important;
-    /* Mockup's icon-to-text gap measured at ~20px against the same 981px-wide card
-       (~8.75px at this card's actual 429px width) -- down from this rule's previous 12px,
-       which was itself only measured against a different, non-fixed-width reference. */
-    margin-right: 9px !important;
+    icon-size: 58px !important;
+    margin-right: 7px !important;
 }
 
 /* Real, measured overhead the icon-size math above didn't account for: the theme's own stock
