@@ -94,16 +94,23 @@
    competing !important left to tie against) is what actually makes the dynamic stylesheet
    reliable. */
 .notification-banner {
-    /* `width` forced every notification to this same fixed size regardless of content --
-       fine for a real notification with a full title+body, but a short one (a test
-       notification with just a couple words) rendered as mostly empty space, a small icon
-       and a few words floating in a way-too-large card (confirmed live against a real
-       screenshot, not guessed). `max-width` is the actual fix: caps it at this same width
-       for long content, but lets the card shrink to fit short content instead of forcing
-       it wide regardless. Confirmed against St's own real source
-       (st-theme-node.c: st_theme_node_get_max_width(), a genuinely parsed CSS property, not
-       assumed supported) before using it, given how many CSS-property guesses already went
-       wrong tonight. */
+    /* `max-width` alone (a previous version of this rule) never actually fixed the
+       oversized-container bug, despite looking like it should: GNOME's own stock
+       gnome-shell.css sets `.notification-banner { width: 34em; }` on this exact selector,
+       and `max-width` only ever clamps that DOWN as a ceiling -- it does not remove the
+       forced width itself, so every notification, short or long, rendered at exactly this
+       ceiling regardless of content. That's why the card kept looking "way too big" (28.8em
+       is still much wider than a short "test" notification needs) through several previous
+       fix attempts here, and later, after a JS-based width override was tried instead of
+       this, why that JS timing-dependent measurement broke outright on real hardware (it
+       computed its own number too early/unreliably and hard-clipped real text -- see
+       notificationTray.js's own history for that). `width: auto` is the actual fix: verified
+       against St's real C source (st-theme-node.c's do_size_property()) that "auto" sets the
+       node's width value to -1, IDENTICAL to the property never being set at all -- so this
+       neutralizes the stock 34em outright and restores genuine content-based sizing, with
+       `max-width` still there purely as a ceiling for pathologically long content. No JS
+       measurement needed at all with this in place. */
+    width: auto !important;
     max-width: 28.8em !important; /* 20% narrower than this project's own previous 36em */
     min-height: 42px !important;
     /* The theme's own stock padding here is 4px -- measured directly against a real macOS
